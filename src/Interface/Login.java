@@ -6,8 +6,6 @@
 package Interface;
 import javax.swing.JFrame;
 import Controleurs.Connexion;
-import Interface.CreationUtilisateur;
-import modele.Test;
 
 /**
  *
@@ -115,7 +113,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         ValidationIdentifiants.setBackground(new java.awt.Color(255, 51, 255));
@@ -217,7 +215,7 @@ public class Login extends javax.swing.JFrame {
             case 1:
                 final Principale frame = new Principale();
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(600, 600);
+                frame.setSize(1000, 1000);
                 frame.setVisible(true);
                 this.setVisible(false);
                 break;
