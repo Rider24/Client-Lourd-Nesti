@@ -13,6 +13,32 @@ public class Recettes{
     protected int ID;
     protected String nom;
     protected Themes theme;
+    protected String description;
+
+    public Recettes(int ID, String nom, Themes theme, String description) {
+        this.ID = ID;
+        this.nom = nom;
+        this.theme = theme;
+        this.description = description;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
     
     public int getID(){
         return this.ID;

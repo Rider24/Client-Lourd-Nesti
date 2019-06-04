@@ -8,12 +8,7 @@ package Interface;
 import Controleurs.Creation;
 import Controleurs.Lecture;
 import client.lourd.nesti.Ville;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
@@ -520,6 +515,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
                 }
                 else{
                     JOptionPane.showMessageDialog(jPanel4, "Le client a bien été créé.");
+                    jButton2ActionPerformed(evt);
                 }
                 //        }
             //        else{
@@ -565,7 +561,6 @@ public class CreationUtilisateur extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         final Principale frame = new Principale();
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(600, 600);
                 frame.setVisible(true);
         this.dispose();
         

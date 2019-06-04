@@ -65,33 +65,33 @@ public class ModeleRecette {
         }
     } // READ(ALL)
             
-    public static void readAllRecipes(){
-        try {
-            Connection co = modele.startConnection();
-            
-            Statement smts = co.createStatement();
-            String query = "Select * from recette";
-            try (ResultSet resultats = smts.executeQuery(query)) {
-                while(resultats.next()){
-                    Recettes r = new Recettes();
-                    r.setName(resultats.getString("nom"));
-                    r.setId(resultats.getInt("id"));
-                    System.out.println(r.toString());
-                    
-                    
-                    
-                    
-                    
-//                System.out.println("resultat : ");
-//                String nom = resultats.getString("nom");
-//                int id = resultats.getInt("id"); 
-//                System.out.println(id + " " +nom);
-                }
-            }
-            modele.closeConnection(co);
-        } catch (SQLException ex) {
-            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
-        }} // READ
+//    public static void readAllRecipes(){
+//        try {
+//            Connection co = modele.startConnection();
+//            
+//            Statement smts = co.createStatement();
+//            String query = "Select * from recette";
+//            try (ResultSet resultats = smts.executeQuery(query)) {
+//                while(resultats.next()){
+//                    Recettes r = new Recettes();
+//                    r.setName(resultats.getString("nom"));
+//                    r.setId(resultats.getInt("id"));
+//                    System.out.println(r.toString());
+//                    
+//                    
+//                    
+//                    
+//                    
+////                System.out.println("resultat : ");
+////                String nom = resultats.getString("nom");
+////                int id = resultats.getInt("id"); 
+////                System.out.println(id + " " +nom);
+//                }
+//            }
+//            modele.closeConnection(co);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+//        }} // READ
 
     public static void modifyRecipe(int id, String nom){
         try {

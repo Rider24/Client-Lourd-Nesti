@@ -11,9 +11,11 @@ package client.lourd.nesti;
  */
 public class Clients extends Utilisateurs{
 
-    public Clients(int idUser, String nom, Droits droit) {
-        super(idUser, nom, droit);
+    public Clients(int idUser, String nom, Droits droit, String prenom, String adresse, String mail, String ddn, String login, String ville, int codePostal) {
+        super(idUser, nom, droit, prenom, adresse, mail, ddn, login, ville, codePostal);
     }
+
+
     
     
 }

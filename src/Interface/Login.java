@@ -217,7 +217,7 @@ public class Login extends javax.swing.JFrame {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setSize(1000, 1000);
                 frame.setVisible(true);
-                this.setVisible(false);
+                this.dispose();
                 break;
             case 2:
                 AfficheErreur.setText("Erreur de login ou d'identifiant, veuillez réessayer");

@@ -12,6 +12,11 @@ package client.lourd.nesti;
 public class Themes {
     protected int ID;
     protected String nom;
+
+    public Themes(int ID, String nom) {
+        this.ID = ID;
+        this.nom = nom;
+    }
     
     public int getID(){
         return this.ID;

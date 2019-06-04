@@ -12,10 +12,12 @@ package client.lourd.nesti;
 public class Cuisiniers extends Utilisateurs{
     private Specialites spe;
 
-    public Cuisiniers(Specialites spe, int idUser, String nom, Droits droit) {
-        super(idUser, nom, droit);
+    public Cuisiniers(Specialites spe, int idUser, String nom, Droits droit, String prenom, String adresse, String mail, String ddn, String login, String ville, int codePostal) {
+        super(idUser, nom, droit, prenom, adresse, mail, ddn, login, ville, codePostal);
         this.spe = spe;
     }
+
+    
     public Specialites getSpe() {
         return spe;
     }
