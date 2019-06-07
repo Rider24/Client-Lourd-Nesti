@@ -8,26 +8,27 @@ package Controleurs;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modele.ModeleRecette;
 import modele.modele;
 
 /**
  *
  * @author Elrick
  */
-public class Creation {
-    // Création d'un nouvel utilisateur, selon les valeurs renseignées dans le formulaire.
-    public static boolean creationNouvelUtilisateur(String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal){
+public class Modification {
+    public static boolean modificationClient(int idUser, String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal){
         try {
             Connection co = modele.startConnection();
             
             Statement declaration = co.createStatement();
             
-            String query = "INSERT INTO `utilisateur` (`idUser`, `nomUser`, `prenom`, `ddnUser`, `adresse`, `mail`, `Droits_idDroits`, `login`, `mdp`, `CodePostal_Ville_idVille`, `CodePostal_CodePostal_cp`) "
-                    + "VALUES (NULL, '"+nom+"', '"+prenom+"', '"+dateNaissance+"', '"+adresse+"', '"+mail+"', '"+droits+"', '"+login+"', '"+mdp+"', '"+idVille+"', '"+codePostal+"');";
+            String query = "UPDATE utilisateur SET nomUser = \""+ nom +"\", prenom = \""+ prenom +"\", ddnUser = \""+ dateNaissance + "\", adresse = \"" + adresse + "\", mail = \"" + mail + "\", login = \""+login+"\", CodePostal_Ville_idVille = " + idVille + ", CodePostal_CodePostal_cp = " + codePostal + " WHERE utilisateur.idUser = "+idUser +";";
             System.out.println(query);
+            if(!"".equals(mdp)){
+                query = "UPDATE utilisateur SET nomUser = \""+ nom +"\", prenom = \""+ prenom +"\", ddnUser = \""+ dateNaissance + "\", adresse = \"" + adresse + "\", mail = \"" + mail + "\", login = \""+login+"\", mdp = \"" + mdp + "\", CodePostal_Ville_idVille = " + idVille + ", CodePostal_CodePostal_cp = " + codePostal + " WHERE utilisateur.idUser = "+idUser +";";
+            }
             int retour = declaration.executeUpdate(query);
             
             if(retour == 1){
@@ -41,6 +42,5 @@ public class Creation {
         } catch (SQLException ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        }}
-//    public static 
+    }}
 }

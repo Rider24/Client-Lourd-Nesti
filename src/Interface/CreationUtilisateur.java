@@ -7,7 +7,11 @@ package Interface;
 
 import Controleurs.Creation;
 import Controleurs.Lecture;
+import Controleurs.Modification;
+import client.lourd.nesti.Clients;
+import client.lourd.nesti.Cuisiniers;
 import client.lourd.nesti.Ville;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,14 +23,25 @@ import javax.swing.JOptionPane;
  * @author Elrick
  */
 public class CreationUtilisateur extends javax.swing.JFrame {
+
+    static Clients clientPassé;
+    static Cuisiniers cuisinierPassé;
     int UltimeGlobalIdVille;
     int idDroit;
+    
     /**
      * Creates new form CreationUtilisateur
      */
     public CreationUtilisateur() {
         initComponents();
-        initComboVille();
+        initComboVille();   
+//        resetLesChamps();
+        if(clientPassé != null){
+            initFenModification();
+        }
+        else if(cuisinierPassé != null){
+            initFenModificationCuisiniers();
+        }
     }
 
     /**
@@ -178,7 +193,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Créer");
+        jButton1.setText("Valider");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -409,6 +424,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
     }//GEN-LAST:event_moisFocusGained
 
     private void moisFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_moisFocusLost
+
         if ("".equals(mois.getText())) {
             mois.setText("MM");
         }
@@ -444,18 +460,21 @@ public class CreationUtilisateur extends javax.swing.JFrame {
     }//GEN-LAST:event_jourFocusGained
 
     private void jourFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jourFocusLost
-        if ("".equals(jour.getText())) {
+
+            if ("".equals(jour.getText())) {
             jour.setText("JJ");
         }
-        else {
-            int i = Integer.parseInt(jour.getText());
-            if(i > 31){
-                jLabel13.setText("Jour, Mois ou année erronée.");
-            }
-            else{
-                jLabel13.setText("");
-            }
+            else {
+                int i = Integer.parseInt(jour.getText());
+                if(i > 31){
+                    jLabel13.setText("Jour, Mois ou année erronée.");
+                }
+                else{
+                    jLabel13.setText("");
+                }
         }
+        
+        
     }//GEN-LAST:event_jourFocusLost
 
     private void jourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jourActionPerformed
@@ -504,8 +523,18 @@ public class CreationUtilisateur extends javax.swing.JFrame {
     }//GEN-LAST:event_COMBOcpActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //        if(annee.getText()!="" || annee.getText()!="" || annee.getText()!= ""){
-            //            if (COMBOcp.getSelectedIndex() != 0){
+            if (clientPassé != null || cuisinierPassé != null) {
+            String laDDN1 = annee.getText() + "-" + mois.getText() + "-" + jour.getText();
+            Object objetCodePostal1 = COMBOcp.getSelectedItem();
+            int leCodePostal1 = Integer.parseInt(objetCodePostal1.toString());
+            boolean envoi1 = Modification.modificationClient(clientPassé.getID(),champNom.getText(), champPrenom.getText(), laDDN1, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), champMdp.getText(), UltimeGlobalIdVille, leCodePostal1);
+            if (envoi1 == false) {
+                JOptionPane.showMessageDialog(jPanel4, "Le client n'a pas été créé. Vérifiez votre saisie.", "ERROR", 2);
+            } else {
+                JOptionPane.showMessageDialog(jPanel4, "Le client a bien été créé.");
+                jButton2ActionPerformed(evt);
+            }}
+            else{
                 String laDDN = annee.getText()+"-"+mois.getText()+"-"+jour.getText();
                 Object objetCodePostal = COMBOcp.getSelectedItem();
                 int leCodePostal = Integer.parseInt(objetCodePostal.toString());
@@ -516,11 +545,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
                 else{
                     JOptionPane.showMessageDialog(jPanel4, "Le client a bien été créé.");
                     jButton2ActionPerformed(evt);
-                }
-                //        }
-            //        else{
-                //            JOptionPane.showMessageDialog(jPanel1, "Veuillez selectionner un code postal !!!!!","ERROR",2);
-                //        }
+                }}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void champMdpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_champMdpFocusLost
@@ -562,6 +587,8 @@ public class CreationUtilisateur extends javax.swing.JFrame {
         final Principale frame = new Principale();
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
+        CreationUtilisateur.clientPassé = null;
+        CreationUtilisateur.cuisinierPassé = null;
         this.dispose();
         
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -574,6 +601,48 @@ public class CreationUtilisateur extends javax.swing.JFrame {
             COMBOville.addItem(uneVille.getNom());
         }
     }
+    private void initFenModification(){
+        jLabel1.setText("Modification utilisateur");
+        champNom.setText(clientPassé.getNom());
+        champPrenom.setText(clientPassé.getPrenom());
+        champAdresse.setText(clientPassé.getAdresse());
+        String test = clientPassé.getDdn();
+        Mail.setText(clientPassé.getMail());
+        annee.setText(test.substring(0, 4));
+        mois.setText(test.substring(5, 7));
+        jour.setText(test.substring(8));
+        champLogin.setText(clientPassé.getLogin());
+        COMBOville.setSelectedItem(clientPassé.getVille());
+        ActionEvent evt = null;
+        COMBOvilleActionPerformed(evt);
+        COMBOcp.setSelectedItem(clientPassé.getCodePostal());
+        jComboBox1.setSelectedItem(clientPassé.getDroit().getNom());
+    }
+    private void initFenModificationCuisiniers(){
+        jLabel1.setText("Modification utilisateur");
+        champNom.setText(cuisinierPassé.getNom());
+        champPrenom.setText(cuisinierPassé.getPrenom());
+        champAdresse.setText(cuisinierPassé.getAdresse());
+        String test = cuisinierPassé.getDdn();
+        Mail.setText(cuisinierPassé.getMail());
+        annee.setText(test.substring(0, 4));
+        mois.setText(test.substring(5, 7));
+        jour.setText(test.substring(8));
+        champLogin.setText(cuisinierPassé.getLogin());
+        COMBOville.setSelectedItem(cuisinierPassé.getVille());
+        ActionEvent evt = null;
+        COMBOvilleActionPerformed(evt);
+        COMBOcp.setSelectedItem(cuisinierPassé.getCodePostal());
+        jComboBox1.setSelectedItem(cuisinierPassé.getDroit().getNom());
+    }
+//    private void resetLesChamps(){
+//        jLabel1.setText("Creation utilisateur");
+//        champNom.setText("");
+//        champPrenom.setText("");
+//        champAdresse.setText("");
+//        champLogin.setText("");
+//        Mail.setText("");
+//    }
     /**
      * @param args the command line arguments
      */

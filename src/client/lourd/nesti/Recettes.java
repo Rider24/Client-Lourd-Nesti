@@ -14,12 +14,37 @@ public class Recettes{
     protected String nom;
     protected Themes theme;
     protected String description;
+    protected Ingredients ingredients;
 
+    public Recettes(int ID, String nom, String description) {
+        this.ID = ID;
+        this.nom = nom;
+        this.description = description;
+    }
+
+    
     public Recettes(int ID, String nom, Themes theme, String description) {
         this.ID = ID;
         this.nom = nom;
         this.theme = theme;
         this.description = description;
+    }
+
+    public Recettes(int ID, String nom, Themes theme, String description, Ingredients ingredients) {
+        this.ID = ID;
+        this.nom = nom;
+        this.theme = theme;
+        this.description = description;
+        this.ingredients = ingredients;
+    }
+
+    
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getNom() {
@@ -28,6 +53,14 @@ public class Recettes{
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public Themes getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Themes theme) {
+        this.theme = theme;
     }
 
     public String getDescription() {
@@ -39,22 +72,6 @@ public class Recettes{
     }
 
 
-    
-    public int getID(){
-        return this.ID;
-    }
-    public String getName(){
-        return this.nom;
-    }
-    public Themes getTheme(){
-        return this.theme;
-    }
-    public void setId(int Id){
-        this.ID = Id;
-    }
-    public void setName(String name){
-        this.nom = name;
-    }
 
     @Override
     public String toString() {

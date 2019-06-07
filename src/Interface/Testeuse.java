@@ -5,10 +5,6 @@
  */
 package Interface;
 
-import javax.swing.JComboBox;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-
 /**
  *
  * @author Elrick
