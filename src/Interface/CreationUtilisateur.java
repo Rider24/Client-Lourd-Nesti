@@ -643,6 +643,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
 //        champLogin.setText("");
 //        Mail.setText("");
 //    }
+    
     /**
      * @param args the command line arguments
      */

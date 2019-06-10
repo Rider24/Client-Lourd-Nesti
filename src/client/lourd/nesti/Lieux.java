@@ -10,14 +10,40 @@ package client.lourd.nesti;
  * @author Elrick
  */
 public class Lieux {
+
     protected int ID;
     protected String nom;
-   
-        public int getID(){
-            return this.ID;
-        }
+    protected Ville ville;
 
-        public String getNom(){
-            return this.nom;
-}
+    public Lieux(int ID, String nom, Ville ville) {
+        this.ID = ID;
+        this.nom = nom;
+        this.ville = ville;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public Ville getVille() {
+        return ville;
+    }
+
+    public void setVille(Ville ville) {
+        this.ville = ville;
+    }
+
+    
 }

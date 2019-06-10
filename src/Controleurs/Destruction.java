@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modele.ModeleRecette;
 import modele.modele;
 
 /**
@@ -30,7 +29,7 @@ public class Destruction {
             stmt.execute(query);            
             
         } catch (SQLException ex) {
-            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Destruction.class.getName()).log(Level.SEVERE, null, ex);
         }
     } // Supprime l'utilisateur dont l'Id a été passé en paramètre
     public static void deleteRecette(String uneRecette){
@@ -42,7 +41,20 @@ public class Destruction {
             String query = "DELETE FROM recette WHERE nom = \"" + uneRecette + "\"";
             stmt.execute(query); 
         } catch (SQLException ex) {
-            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Destruction.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public static void deleteIngredientRecette(int idIng, int idRec){
+        try{
+        Connection co = modele.startConnection();
+            
+                Statement stmt = co.createStatement();
+              
+            String query = "DELETE FROM contenurecette WHERE contenurecette.Ingredients_idIng = "+idIng+" AND contenurecette.Recette_idRec = "+idRec+"";
+            stmt.execute(query);
+        }catch (SQLException ex) {
+            Logger.getLogger(Destruction.class.getName()).log(Level.SEVERE, null, ex);
+    }
+                
     }
 }

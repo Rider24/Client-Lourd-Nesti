@@ -22,6 +22,12 @@ public class Ingredients {
         this.unite = unite;
     }
 
+    public Ingredients(int id, String nom) {
+        this.id = id;
+        this.nom = nom;
+    }
+    
+
     public int getId() {
         return id;
     }

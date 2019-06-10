@@ -18,29 +18,75 @@ import modele.modele;
  * @author Elrick
  */
 public class Creation {
+
     // Création d'un nouvel utilisateur, selon les valeurs renseignées dans le formulaire.
-    public static boolean creationNouvelUtilisateur(String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal){
+    public static boolean creationNouvelUtilisateur(String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal) {
         try {
             Connection co = modele.startConnection();
-            
+
             Statement declaration = co.createStatement();
-            
+
             String query = "INSERT INTO `utilisateur` (`idUser`, `nomUser`, `prenom`, `ddnUser`, `adresse`, `mail`, `Droits_idDroits`, `login`, `mdp`, `CodePostal_Ville_idVille`, `CodePostal_CodePostal_cp`) "
-                    + "VALUES (NULL, '"+nom+"', '"+prenom+"', '"+dateNaissance+"', '"+adresse+"', '"+mail+"', '"+droits+"', '"+login+"', '"+mdp+"', '"+idVille+"', '"+codePostal+"');";
+                    + "VALUES (NULL, '" + nom + "', '" + prenom + "', '" + dateNaissance + "', '" + adresse + "', '" + mail + "', '" + droits + "', '" + login + "', '" + mdp + "', '" + idVille + "', '" + codePostal + "');";
             System.out.println(query);
             int retour = declaration.executeUpdate(query);
-            
-            if(retour == 1){
+
+            if (retour == 1) {
                 modele.closeConnection(co);
                 return true;
-            }
-            else{
+            } else {
                 modele.closeConnection(co);
                 return false;
-            }         
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Creation.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        }}
-//    public static 
+        }
+    }
+
+    public static boolean ajoutIngredientRecette(int idIng, int idRec) {
+        boolean renvoi = false;
+        try {
+            Connection co = modele.startConnection();
+
+            Statement declaration = co.createStatement();
+
+            String query = "INSERT INTO contenurecette (Ingredients_idIng, Recette_idRec) VALUES (" + idIng + ", " + idRec + ");";
+            int retour = declaration.executeUpdate(query);
+            System.out.println(retour);
+            if (retour == 1) {
+                renvoi = true;
+            }
+            modele.closeConnection(co);
+        } catch (SQLException ex) {
+            Logger.getLogger(Creation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return renvoi;
+    }
+
+    public static boolean creationRecette(String nom, String descript, String nomTheme) {
+        try {
+            Connection co = modele.startConnection();
+
+            Statement declaration = co.createStatement();
+
+            String requete = "INSERT INTO recette (idRec, nom, description, Theme_idTheme) VALUES (NULL, \"" + nom + "\", \"" + descript + "\", (SELECT idTheme FROM theme WHERE theme.descript = \""+ nomTheme + "\"))";
+
+            int retour = declaration.executeUpdate(requete);
+
+            if (retour == 1) {
+                modele.closeConnection(co);
+                return true;
+            } else {
+                modele.closeConnection(co);
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Creation.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+    }
+
 }

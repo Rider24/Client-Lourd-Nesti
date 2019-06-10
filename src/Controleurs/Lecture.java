@@ -304,4 +304,46 @@ public class Lecture {
         }
         return unCuisinier;
     } // Récupère un cuisinier, non fonctionnel.
+    public static ArrayList getLesIngredients(){
+        ArrayList<Ingredients> lesIngredients = new ArrayList<>();
+        
+        try {
+            Connection co = modele.startConnection();
+
+            Statement stmt = co.createStatement();
+
+            String query =  "SELECT idIng, nom FROM ingredients";
+            ResultSet resultat = stmt.executeQuery(query);
+            if (resultat.next()) {
+                do {             
+                    Ingredients ingredient = new Ingredients(resultat.getInt("idIng"), resultat.getString("nom"));
+                    lesIngredients.add(ingredient);
+                }
+                while(resultat.next());
+                modele.closeConnection(co);                
+            }
+            else{
+                lesIngredients = null;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lesIngredients;
+    } // Renvoie un tableau contenant tous les ingredients.
+    public static ArrayList getLesCours(){
+        ArrayList<Ingredients> lesIngredients = new ArrayList<>();
+        
+        try {
+            Connection co = modele.startConnection();
+
+            Statement stmt = co.createStatement();
+            
+            String query = "";
+            
+            ResultSet resultat = stmt.executeQuery(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

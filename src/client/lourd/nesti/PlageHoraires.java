@@ -13,6 +13,11 @@ import java.util.Date;
 public class PlageHoraires {
     private int ID;
     private Date date;
+
+    public PlageHoraires(int ID, Date date) {
+        this.ID = ID;
+        this.date = date;
+    }
     
     public int getID(){
         return this.ID;
