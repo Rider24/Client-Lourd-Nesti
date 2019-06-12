@@ -112,9 +112,6 @@ abstract class Utilisateurs {
         this.codePostal = codePostal;
     }
     
-    public String HashageMotDePasse(){
-        return "";
-    }
     
     }
    

@@ -5,10 +5,11 @@
  */
 package Controleurs;
 
+import java.io.UnsupportedEncodingException;
+import java.security.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.modele;
@@ -21,27 +22,31 @@ public class Creation {
 
     // Création d'un nouvel utilisateur, selon les valeurs renseignées dans le formulaire.
     public static boolean creationNouvelUtilisateur(String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal) {
+        boolean AEnvoyer;
         try {
             Connection co = modele.startConnection();
 
             Statement declaration = co.createStatement();
 
+            String mpdHashé = Connexion.hashMotDePasse(mdp);
+            
             String query = "INSERT INTO `utilisateur` (`idUser`, `nomUser`, `prenom`, `ddnUser`, `adresse`, `mail`, `Droits_idDroits`, `login`, `mdp`, `CodePostal_Ville_idVille`, `CodePostal_CodePostal_cp`) "
-                    + "VALUES (NULL, '" + nom + "', '" + prenom + "', '" + dateNaissance + "', '" + adresse + "', '" + mail + "', '" + droits + "', '" + login + "', '" + mdp + "', '" + idVille + "', '" + codePostal + "');";
+                    + "VALUES (NULL, '" + nom + "', '" + prenom + "', '" + dateNaissance + "', '" + adresse + "', '" + mail + "', '" + droits + "', '" + login + "', '" + mpdHashé + "', '" + idVille + "', '" + codePostal + "');";
             System.out.println(query);
             int retour = declaration.executeUpdate(query);
 
             if (retour == 1) {
                 modele.closeConnection(co);
-                return true;
+                AEnvoyer = true;
             } else {
                 modele.closeConnection(co);
-                return false;
+                AEnvoyer = false;
             }
         } catch (SQLException ex) {
             Logger.getLogger(Creation.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            AEnvoyer = false;
         }
+        return AEnvoyer;
     }
 
     public static boolean ajoutIngredientRecette(int idIng, int idRec) {

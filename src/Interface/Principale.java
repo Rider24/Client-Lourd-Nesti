@@ -8,7 +8,9 @@ package Interface;
 import Controleurs.Creation;
 import Controleurs.Destruction;
 import Controleurs.Lecture;
+import Controleurs.Modification;
 import client.lourd.nesti.Clients;
+import client.lourd.nesti.Cours;
 import client.lourd.nesti.Ingredients;
 import client.lourd.nesti.Recettes;
 import client.lourd.nesti.Themes;
@@ -44,7 +46,6 @@ public class Principale extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton2 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jInternalFrame2 = new javax.swing.JInternalFrame();
@@ -80,8 +81,9 @@ public class Principale extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         apercuDescript = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
-
-        jButton2.setText("jButton2");
+        jScrollPane5 = new javax.swing.JScrollPane();
+        TableCours = new javax.swing.JTable();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -396,8 +398,8 @@ public class Principale extends javax.swing.JFrame {
             .addGap(0, 545, Short.MAX_VALUE)
             .addGroup(recettesListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(recettesListLayout.createSequentialGroup()
-                    .addComponent(tableRecettes1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(tableRecettes1, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
+                    .addGap(0, 0, 0)))
         );
         recettesListLayout.setVerticalGroup(
             recettesListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -476,15 +478,59 @@ public class Principale extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Gestion recettes", jPanel2);
 
+        TableCours.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nom de la recette", "Nom du lieu", "Ville", "Code postal", "Date du cours", "Nom du cuisinier", "Durée (en heures)"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(TableCours);
+
+        jButton6.setText("Charger la table");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 748, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 675, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(191, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion Cours", jPanel3);
@@ -649,7 +695,7 @@ public class Principale extends javax.swing.JFrame {
 
     private void ComboThemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboThemeActionPerformed
         if (ComboTheme.getSelectedIndex() != 0) {
-            ArrayList<Recettes> lesRecettes = Lecture.getLesRecettes(ComboTheme.getSelectedItem().toString());
+            ArrayList<Recettes> lesRecettes = Lecture.getLesRecettesSelonTheme(ComboTheme.getSelectedItem().toString());
             DefaultTableModel model = (DefaultTableModel) tableRecettes2.getModel();
             if (lesRecettes != null) {
                 Object[] row = new Object[1];
@@ -680,11 +726,21 @@ public class Principale extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         
 
-        if (!"".equals(nomRecette.getText())) {
+        if ("".equals(nomRecette.getText())) {
+            JOptionPane.showMessageDialog(jPanel1, "Le nom comporte une erreur.", "Votre attention, invocateur.", 0);
+        }else if(ComboTheme1.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(jPanel1, "Le thème selectionné comporte une erreur.", "Votre attention, invocateur.", 0);
+        }else{
             String nomRec = nomRecette.getText();
             String desc = descriptRecette.getText();
             String nomTheme = ComboTheme1.getSelectedItem().toString();
-            Creation.creationRecette(nomRec, desc, nomTheme);
+            Recettes testRecette = Lecture.getUneRecette(nomRec);
+            if (testRecette == null){
+                Creation.creationRecette(nomRec, desc, nomTheme);
+            }else{
+                Modification.modificationRecette(testRecette.getID(), nomRec, desc, nomTheme);
+            }
+            
             
             int nombreDeRow = tableIngredients.getRowCount();
 
@@ -696,11 +752,8 @@ public class Principale extends javax.swing.JFrame {
         jLayeredPane1.setVisible(true);
         creationRecette.setVisible(false);
         resetLesChamps();
-        
-        }else{
-            JOptionPane.showMessageDialog(jPanel1, "Impossible de créer une recette sans nom.", "Alerte", 0);
-        }
 
+        }
         
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -713,7 +766,10 @@ public class Principale extends javax.swing.JFrame {
         String nomRec = nomRecette.getText();
         String desc = descriptRecette.getText();
         String nomTheme = ComboTheme1.getSelectedItem().toString();
-        Creation.creationRecette(nomRec, desc, nomTheme);
+        if (Lecture.getUneRecette(nomRec) == null){
+            Creation.creationRecette(nomRec, desc, nomTheme);
+        }
+        
     }//GEN-LAST:event_gererIngredientsActionPerformed
 
     private void jTabbedPane1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPane1FocusGained
@@ -742,9 +798,33 @@ public class Principale extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboTheme1ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        ArrayList<Cours> lesCours = Lecture.getLesCours();
+        
+        DefaultTableModel model = (DefaultTableModel) TableCours.getModel();
+        Object[] row = new Object[7];
+
+        if (model.getRowCount() != 0) {
+            model.setRowCount(0);
+        }
+
+        for (int i = 0; i <= lesCours.size() - 1; i++) {
+            Cours unCours = lesCours.get(i);
+            row[0] = unCours.getNomrecette();
+            row[1] = unCours.getLieu();
+            row[2] = unCours.getVille().getNom();
+            row[3] = unCours.getVille().getCodePostal();
+            row[4] = unCours.getDate();
+            row[5] = unCours.getCuisinier();
+            row[6] = unCours.getDurée();
+            model.addRow(row);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     private void initComboThemes() {
         ArrayList<Themes> lesThemes = Lecture.getLesThemes();
         ComboTheme.addItem("Selectionnez un Theme !");
+        ComboTheme1.addItem("Selectionnez un Theme !");
         for (int i = 0; i <= lesThemes.size() - 1; i++) {
             Themes unTheme = lesThemes.get(i);
             ComboTheme.addItem(unTheme.getName());
@@ -755,6 +835,7 @@ public class Principale extends javax.swing.JFrame {
     private void resetLesChamps() {
         nomRecette.setText("");
         descriptRecette.setText("");
+        ComboTheme1.setSelectedIndex(0);
     }
 
     /**
@@ -796,16 +877,17 @@ public class Principale extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboTheme;
     private javax.swing.JComboBox<String> ComboTheme1;
+    private javax.swing.JTable TableCours;
     private javax.swing.JButton ajoutRecette;
     private javax.swing.JTextArea apercuDescript;
     private javax.swing.JPanel creationRecette;
     private javax.swing.JTextArea descriptRecette;
     private javax.swing.JButton gererIngredients;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton9;
     private javax.swing.JInternalFrame jInternalFrame2;
@@ -820,6 +902,7 @@ public class Principale extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField3;

@@ -6,9 +6,12 @@
 package Controleurs;
 
 import client.lourd.nesti.Clients;
+import client.lourd.nesti.Cours;
 import client.lourd.nesti.Cuisiniers;
 import client.lourd.nesti.Droits;
 import client.lourd.nesti.Ingredients;
+import client.lourd.nesti.Lieux;
+import client.lourd.nesti.PlageHoraires;
 import client.lourd.nesti.Recettes;
 import client.lourd.nesti.Specialites;
 import client.lourd.nesti.Themes;
@@ -136,7 +139,7 @@ public class Lecture {
                             "LEFT join ville on utilisateur.CodePostal_Ville_idVille = ville.idVille\n" +
                             "LEFT join droits on utilisateur.Droits_idDroits = droits.idDroits\n" + 
                             "WHERE idUser = " + ID;
-            System.out.println(query);
+            
             ResultSet resultat = stmt.executeQuery(query);
             if (resultat.next()) {
                 do {
@@ -164,7 +167,7 @@ public class Lecture {
         }
         return unClient;
     } // renvoie un utilisateur de type Client
-    public static ArrayList getLesRecettes(String nomTheme){
+    public static ArrayList getLesRecettesSelonTheme(String nomTheme){
         ArrayList<Recettes> lesRecettes = new ArrayList<>();
         try {
             Connection co = modele.startConnection();
@@ -191,7 +194,34 @@ public class Lecture {
         }
         return lesRecettes;
         
-    } // Attrape les recettes de la base 
+    } // Attrape les recettes de la base selon le thème
+    public static ArrayList getLesRecettes(){
+        ArrayList<Recettes> lesRecettes = new ArrayList<>();
+        try {
+            Connection co = modele.startConnection();
+
+            Statement stmt = co.createStatement();
+
+            String query =  "select idRec, nom, description, theme.idTheme, theme.descript from recette join theme on recette.Theme_idTheme = theme.idTheme";
+            ResultSet resultat = stmt.executeQuery(query);
+            if (resultat.next()) {
+                do {             
+                    Themes theme = new Themes(resultat.getInt("theme.idTheme"), resultat.getString("theme.descript"));
+                    Recettes recette = new Recettes(resultat.getInt("idRec"), resultat.getString("nom"), theme, resultat.getString("description"));
+                    lesRecettes.add(recette);
+                }
+                while(resultat.next());
+                modele.closeConnection(co);                
+            }
+            else{
+                lesRecettes = null;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lesRecettes;
+    }
     public static ArrayList getLesThemes(){
         ArrayList<Themes> lesThemes = new ArrayList<>();
         try {
@@ -332,18 +362,95 @@ public class Lecture {
         return lesIngredients;
     } // Renvoie un tableau contenant tous les ingredients.
     public static ArrayList getLesCours(){
-        ArrayList<Ingredients> lesIngredients = new ArrayList<>();
+        ArrayList<Cours> lesCours = new ArrayList<>();
         
         try {
             Connection co = modele.startConnection();
 
             Statement stmt = co.createStatement();
             
-            String query = "";
+            String query = "SELECT DISTINCT Durée, lieux.nom, lieux.CodePostal_CodePostal_cp, recette.nom, plagehoraire.debut, ville.ville, ville.idVille, utilisateur.nomUser FROM cours\n" +
+"JOIN lieux ON cours.Lieux_idLieux = lieux.idLieux\n" +
+"JOIN recette ON cours.Recette_idRec = recette.idRec\n" +
+"JOIN inscription ON cours.Cuisinier_idCuisinier = inscription.Cours_Cuisinier_idCuisinier\n" +
+"JOIN plagehoraire ON cours.PlageHoraire_idPlageHoraire = plagehoraire.idPlageHoraire\n" +
+"JOIN ville ON lieux.CodePostal_Ville_idVille = ville.idVille\n" +
+"JOIN cuisinier ON cours.Cuisinier_idCuisinier = cuisinier.idCuisinier\n" +
+"JOIN utilisateur ON cuisinier.idCuisinier = utilisateur.idUser";
             
+            System.out.println(query);
             ResultSet resultat = stmt.executeQuery(query);
+            if(resultat.next()){
+                do {       
+                    String nomDuLieu = resultat.getString("lieux.nom");
+                    Ville ville = new Ville(resultat.getInt("ville.idVille"), resultat.getString("ville.ville"), resultat.getInt("lieux.CodePostal_CodePostal_cp"));
+                    String nomRecette = resultat.getString("recette.nom");
+                    String date = resultat.getString("plagehoraire.debut");
+                    int durée = resultat.getInt("Durée");
+                    String nomCuisinier = resultat.getString("utilisateur.nomUser");
+                    Cours cours = new Cours(nomDuLieu, ville, nomRecette,date, nomCuisinier, durée);
+                    lesCours.add(cours);
+                }
+                while(resultat.next());
+                modele.closeConnection(co);  
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+        return lesCours;
+    } // Récupère tous les cours de la base de donnée
+    public static ArrayList getLesPlagesHoraires(){
+        ArrayList<PlageHoraires> lesPlages = new ArrayList<>();
+        
+        try {
+            Connection co = modele.startConnection();
+
+            Statement stmt = co.createStatement();
+            
+            String query = "SELECT * from plagehoraire";
+            
+            System.out.println(query);
+            ResultSet resultat = stmt.executeQuery(query);
+            if(resultat.next()){
+                do {       
+                    int idPlage = resultat.getInt("idPlageHoraire");
+                    String durée = resultat.getString("debut");
+                    
+                    PlageHoraires unePlage = new PlageHoraires(idPlage, durée);
+                    lesPlages.add(unePlage);
+                }
+                while(resultat.next());
+                modele.closeConnection(co);  
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lesPlages;
+    } // Récupère les plages horaires de la table.
+    public static ArrayList getLesLieux(){
+        ArrayList<Lieux> lesLieux = new ArrayList<>();
+        try {
+            Connection co = modele.startConnection();
+
+            Statement stmt = co.createStatement();
+            
+            String query = "SELECT idLieux, nom, ville.ville, CodePostal_CodePostal_cp, CodePostal_Ville_idVille FROM lieux JOIN ville ON lieux.CodePostal_Ville_idVille = ville.idVille";
+
+            ResultSet resultat = stmt.executeQuery(query);
+            if(resultat.next()){
+                do {       
+                    int idLieux = resultat.getInt("idLieux");
+                    String nomLieux = resultat.getString("nom");
+                    Ville uneVille = new Ville(resultat.getInt("CodePostal_Ville_idVille"),resultat.getString("ville.ville"), resultat.getInt("CodePostal_CodePostal_cp"));
+                    Lieux unLieu = new Lieux(idLieux, nomLieux, uneVille);
+                    lesLieux.add(unLieu);
+                }
+                while(resultat.next());
+                modele.closeConnection(co);  
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lesLieux;
+    }// Récupère les lieux de la base de donnée
 }

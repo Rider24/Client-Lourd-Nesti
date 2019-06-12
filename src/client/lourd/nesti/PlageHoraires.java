@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package client.lourd.nesti;
-import java.util.Date;
 
 /**
  *
@@ -12,9 +11,9 @@ import java.util.Date;
  */
 public class PlageHoraires {
     private int ID;
-    private Date date;
+    private String date;
 
-    public PlageHoraires(int ID, Date date) {
+    public PlageHoraires(int ID, String date) {
         this.ID = ID;
         this.date = date;
     }
@@ -22,7 +21,7 @@ public class PlageHoraires {
     public int getID(){
         return this.ID;
     }
-    public Date getDate(){
+    public String getDate(){
         return this.date;
     }
 }

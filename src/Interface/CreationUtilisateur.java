@@ -5,6 +5,7 @@
  */
 package Interface;
 
+import Controleurs.Connexion;
 import Controleurs.Creation;
 import Controleurs.Lecture;
 import Controleurs.Modification;
@@ -527,9 +528,10 @@ public class CreationUtilisateur extends javax.swing.JFrame {
             String laDDN1 = annee.getText() + "-" + mois.getText() + "-" + jour.getText();
             Object objetCodePostal1 = COMBOcp.getSelectedItem();
             int leCodePostal1 = Integer.parseInt(objetCodePostal1.toString());
-            boolean envoi1 = Modification.modificationClient(clientPassé.getID(),champNom.getText(), champPrenom.getText(), laDDN1, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), champMdp.getText(), UltimeGlobalIdVille, leCodePostal1);
+            
+            boolean envoi1 = Modification.modificationClient(clientPassé.getID(),champNom.getText(), champPrenom.getText(), laDDN1, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal1);
             if (envoi1 == false) {
-                JOptionPane.showMessageDialog(jPanel4, "Le client n'a pas été créé. Vérifiez votre saisie.", "ERROR", 2);
+                JOptionPane.showMessageDialog(jPanel4, "Le client n'a pas été modifié. Vérifiez votre saisie.", "ERROR", 2);
             } else {
                 JOptionPane.showMessageDialog(jPanel4, "Le client a bien été créé.");
                 jButton2ActionPerformed(evt);
@@ -538,7 +540,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
                 String laDDN = annee.getText()+"-"+mois.getText()+"-"+jour.getText();
                 Object objetCodePostal = COMBOcp.getSelectedItem();
                 int leCodePostal = Integer.parseInt(objetCodePostal.toString());
-                boolean envoi = Creation.creationNouvelUtilisateur(champNom.getText(), champPrenom.getText(), laDDN, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), champMdp.getText(), UltimeGlobalIdVille, leCodePostal);
+                boolean envoi = Creation.creationNouvelUtilisateur(champNom.getText(), champPrenom.getText(), laDDN, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal);
                 if(envoi == false){
                     JOptionPane.showMessageDialog(jPanel4, "Le client n'a pas été créé. Vérifiez votre saisie.","ERROR",2);
                 }
@@ -608,9 +610,11 @@ public class CreationUtilisateur extends javax.swing.JFrame {
         champAdresse.setText(clientPassé.getAdresse());
         String test = clientPassé.getDdn();
         Mail.setText(clientPassé.getMail());
-        annee.setText(test.substring(0, 4));
-        mois.setText(test.substring(5, 7));
-        jour.setText(test.substring(8));
+        if(!"".equals(test)){
+            annee.setText(test.substring(0, 4));
+            mois.setText(test.substring(5, 7));
+            jour.setText(test.substring(8));
+        }
         champLogin.setText(clientPassé.getLogin());
         COMBOville.setSelectedItem(clientPassé.getVille());
         ActionEvent evt = null;
@@ -625,9 +629,11 @@ public class CreationUtilisateur extends javax.swing.JFrame {
         champAdresse.setText(cuisinierPassé.getAdresse());
         String test = cuisinierPassé.getDdn();
         Mail.setText(cuisinierPassé.getMail());
-        annee.setText(test.substring(0, 4));
-        mois.setText(test.substring(5, 7));
-        jour.setText(test.substring(8));
+        if(!"".equals(test)){
+            annee.setText(test.substring(0, 4));
+            mois.setText(test.substring(5, 7));
+            jour.setText(test.substring(8));
+        }
         champLogin.setText(cuisinierPassé.getLogin());
         COMBOville.setSelectedItem(cuisinierPassé.getVille());
         ActionEvent evt = null;
