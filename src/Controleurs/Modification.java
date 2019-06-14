@@ -23,10 +23,10 @@ public class Modification {
             
             Statement declaration = co.createStatement();
             
-            String query = "UPDATE utilisateur SET nomUser = \""+ nom +"\", prenom = \""+ prenom +"\", ddnUser = \""+ dateNaissance + "\", adresse = \"" + adresse + "\", mail = \"" + mail + "\", login = \""+login+"\", CodePostal_Ville_idVille = " + idVille + ", CodePostal_CodePostal_cp = " + codePostal + " WHERE utilisateur.idUser = "+idUser +";";
+            String query = "UPDATE utilisateur SET nomUser = \""+ nom +"\", prenom = \""+ prenom +"\", ddnUser = \""+ dateNaissance + "\", adresse = \"" + adresse + "\", mail = \"" + mail + "\", login = \""+login+"\", CodePostal_Ville_idVille = " + idVille + ", CodePostal_CodePostal_cp = " + codePostal + ", Droits_idDroits = "+droits+" WHERE utilisateur.idUser = "+idUser +";";
             System.out.println(query);
             if(!"".equals(mdp)){
-                query = "UPDATE utilisateur SET nomUser = \""+ nom +"\", prenom = \""+ prenom +"\", ddnUser = \""+ dateNaissance + "\", adresse = \"" + adresse + "\", mail = \"" + mail + "\", login = \""+login+"\", mdp = \"" + mdp + "\", CodePostal_Ville_idVille = " + idVille + ", CodePostal_CodePostal_cp = " + codePostal + " WHERE utilisateur.idUser = "+idUser +";";
+                query = "UPDATE utilisateur SET nomUser = \""+ nom +"\", prenom = \""+ prenom +"\", ddnUser = \""+ dateNaissance + "\", adresse = \"" + adresse + "\", mail = \"" + mail + "\", login = \""+login+"\", mdp = \"" + mdp + "\", CodePostal_Ville_idVille = " + idVille + ", CodePostal_CodePostal_cp = " + codePostal + ", Droits_idDroits = "+droits+" WHERE utilisateur.idUser = "+idUser +";";
             }
             int retour = declaration.executeUpdate(query);
             
@@ -90,4 +90,31 @@ public class Modification {
     }
         return true;      
     } 
+    public static boolean modificationCuisinier(int idUser, String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal, String specialite){
+        try {
+            Connection co = modele.startConnection();
+            
+            Statement declaration = co.createStatement();
+            
+            String query = "UPDATE utilisateur SET nomUser = \""+ nom +"\", prenom = \""+ prenom +"\", ddnUser = \""+ dateNaissance + "\", adresse = \"" + adresse + "\", mail = \"" + mail + "\", login = \""+login+"\", CodePostal_Ville_idVille = " + idVille + ", CodePostal_CodePostal_cp = " + codePostal + ", Droits_idDroits = "+droits+" WHERE utilisateur.idUser = "+idUser +";"
+                    + "UPDATE cuisinier SET Specialite_idSpecialite = (SELECT idSpecialite FROM specialite WHERE specialite = \"" + specialite + "\";";
+            if(!"".equals(mdp)){
+                query = "UPDATE utilisateur SET nomUser = \""+ nom +"\", prenom = \""+ prenom +"\", ddnUser = \""+ dateNaissance + "\", adresse = \"" + adresse + "\", mail = \"" + mail + "\", login = \""+login+"\", mdp = \"" + mdp + "\", CodePostal_Ville_idVille = " + idVille + ", CodePostal_CodePostal_cp = " + codePostal + ", Droits_idDroits = "+droits+" WHERE utilisateur.idUser = "+idUser +";";
+            }
+            int retour = declaration.executeUpdate(query);
+            
+            if(retour == 1){
+                modele.closeConnection(co);
+                return true;
+            }
+            else{
+                modele.closeConnection(co);
+                return false;
+            }         
+        } catch (SQLException ex) {
+            Logger.getLogger(Modification.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+    }
+        
+    }
 }

@@ -93,5 +93,37 @@ public class Creation {
         }
 
     }
+    
+    public static boolean creationCuisinier(String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal, String specialite){
+        
+        try {
+            Connection co = modele.startConnection();
+
+            Statement declaration = co.createStatement();
+
+            String mpdHashé = Connexion.hashMotDePasse(mdp);
+            
+            
+            String requete = "INSERT INTO `utilisateur` (`idUser`, `nomUser`, `prenom`, `ddnUser`, `adresse`, `mail`, `Droits_idDroits`, `login`, `mdp`, `CodePostal_Ville_idVille`, `CodePostal_CodePostal_cp`) "
+                    + "VALUES (NULL, '" + nom + "', '" + prenom + "', '" + dateNaissance + "', '" + adresse + "', '" + mail + "', '" + droits + "', '" + login + "', '" + mpdHashé + "', '" + idVille + "', '" + codePostal + "');";
+            System.out.println(requete);
+            int retour = declaration.executeUpdate(requete);
+            requete = "INSERT INTO cuisinier (idCuisinier, Specialite_idSpecialite) VALUES ((SELECT idUser FROM utilisateur WHERE nomUser = \""+nom+ "\" AND Droits_idDroits = " + droits + "),\n" +
+                        "(SELECT idSpecialite FROM specialite WHERE specialite = \""+ specialite + "\"));";
+            int retour2 = declaration.executeUpdate(requete);
+            
+            if (retour == 1 && retour2 == 1) {
+                modele.closeConnection(co);
+                return true;
+            } else {
+                modele.closeConnection(co);
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Creation.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 
 }

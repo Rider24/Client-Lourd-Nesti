@@ -142,7 +142,6 @@ public class Lecture {
             
             ResultSet resultat = stmt.executeQuery(query);
             if (resultat.next()) {
-                do {
                     String nom = resultat.getString("nomUser");
                     String prenom = resultat.getString("prenom");
                     int idUser = resultat.getInt("idUser");
@@ -154,13 +153,13 @@ public class Lecture {
                     int codePostal = resultat.getInt("CodePostal_CodePostal_cp");
                     Droits droit = new Droits(resultat.getInt("droits.idDroits"), resultat.getString("droits.nomDroits"));
                     unClient = new Clients(idUser, nom, droit, prenom, adresse, mail, ddn, login, ville, codePostal);
-                }
-                while(resultat.next());
-                modele.closeConnection(co);                
+                    
+             
             }
             else{
                 unClient = null;
             }
+            modele.closeConnection(co);   
             
         } catch (SQLException ex) {
             Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
@@ -221,7 +220,7 @@ public class Lecture {
             Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lesRecettes;
-    }
+    } // Récupère les recettes de la BDD
     public static ArrayList getLesThemes(){
         ArrayList<Themes> lesThemes = new ArrayList<>();
         try {
@@ -295,17 +294,18 @@ public class Lecture {
         }
         return lesIngredients;
     }// Renvoie un tableau contenant les ingredients necessaires a la recette passée en paramètre.
-    public static Cuisiniers getUnCuisinier(int ID){
-        Cuisiniers unCuisinier = null;
+    public static ArrayList getLesCuisiniers(){
+        ArrayList<Cuisiniers> lesCuisiniers = new ArrayList<>();
         try {
             Connection co = modele.startConnection();
 
             Statement stmt = co.createStatement();
 
-            String query =  "SELECT DISTINCT idUser, nomUser, prenom, ddnUser, adresse, mail, login, CodePostal_CodePostal_cp, ville.ville, droits.idDroits, droits.nomDroits FROM `utilisateur`\n" +
-                            "LEFT join ville on utilisateur.CodePostal_Ville_idVille = ville.idVille\n" +
-                            "LEFT join droits on utilisateur.Droits_idDroits = droits.idDroits" + 
-                            "WHERE idUser = " + ID;
+            String query =  "SELECT DISTINCT idUser, nomUser, prenom, ddnUser, adresse, mail, login, CodePostal_CodePostal_cp, ville.ville, specialite.idSpecialite, specialite.specialite FROM utilisateur\n" +
+                            "join ville on utilisateur.CodePostal_Ville_idVille = ville.idVille\n" +
+                            "JOIN cuisinier ON utilisateur.idUser = cuisinier.idCuisinier\n" +
+                            "JOIN specialite ON cuisinier.Specialite_idSpecialite = specialite.idSpecialite\n" +
+                            "WHERE utilisateur.Droits_idDroits = 3";
             ResultSet resultat = stmt.executeQuery(query);
             if (resultat.next()) {
                 do {
@@ -319,7 +319,50 @@ public class Lecture {
                     String ville = resultat.getString("ville.ville");
                     int codePostal = resultat.getInt("CodePostal_CodePostal_cp");
                     Droits droit = new Droits(3, "Cuisinier");
-                    Specialites spe = new Specialites(resultat.getInt("truc"), resultat.getString("coucou"));
+                    Specialites spe = new Specialites(resultat.getInt("specialite.idSpecialite"), resultat.getString("specialite.specialite"));
+                    Cuisiniers cuisinier = new Cuisiniers(spe, idUser, nom, droit, prenom, adresse, mail, ddn, login, ville, codePostal);
+                    lesCuisiniers.add(cuisinier);
+                }
+                while(resultat.next());
+                modele.closeConnection(co);                
+            }
+            else{
+                lesCuisiniers = null;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lesCuisiniers;
+    } // Récupère les cuisiniers de la BDD
+    public static Cuisiniers getUnCuisinier(int ID){
+        Cuisiniers unCuisinier = null;
+        try {
+            Connection co = modele.startConnection();
+
+            Statement stmt = co.createStatement();
+
+            String query =  "SELECT DISTINCT idUser, nomUser, prenom, ddnUser, adresse, mail, login, CodePostal_CodePostal_cp, ville.ville, droits.idDroits, droits.nomDroits, specialite.idSpecialite, specialite.specialite FROM utilisateur\n" +
+                            "join ville on utilisateur.CodePostal_Ville_idVille = ville.idVille\n" +
+                            "join droits on utilisateur.Droits_idDroits = droits.idDroits\n" +
+                            "JOIN cuisinier ON utilisateur.idUser = cuisinier.idCuisinier " +
+                            "JOIN specialite ON cuisinier.Specialite_idSpecialite = specialite.idSpecialite " +
+                            "WHERE idUser = " + ID;
+            System.out.println(query);
+            ResultSet resultat = stmt.executeQuery(query);
+            if (resultat.next()) {
+                do {
+                    String nom = resultat.getString("nomUser");
+                    String prenom = resultat.getString("prenom");
+                    int idUser = resultat.getInt("idUser");
+                    String ddn = resultat.getString("ddnUser");
+                    String adresse = resultat.getString("adresse");
+                    String mail = resultat.getString("mail");
+                    String login = resultat.getString("login");
+                    String ville = resultat.getString("ville.ville");
+                    int codePostal = resultat.getInt("CodePostal_CodePostal_cp");
+                    Droits droit = new Droits(3, "Cuisinier");
+                    Specialites spe = new Specialites(resultat.getInt("idSpecialite"), resultat.getString("specialite"));
                     unCuisinier = new Cuisiniers(spe, idUser, nom, droit, prenom, adresse, mail, ddn, login, ville, codePostal);
                 }
                 while(resultat.next());
@@ -453,4 +496,29 @@ public class Lecture {
         }
         return lesLieux;
     }// Récupère les lieux de la base de donnée
+    public static ArrayList getLesSpecialités(){
+        ArrayList<Specialites> lesSpe = new ArrayList<>();
+        try {
+            Connection co = modele.startConnection();
+
+            Statement stmt = co.createStatement();
+            
+            String query = "SELECT * FROM specialite";
+
+            ResultSet resultat = stmt.executeQuery(query);
+            if(resultat.next()){
+                do {       
+                    int idSpe = resultat.getInt("idSpecialite");
+                    String nomSpe = resultat.getString("specialite");
+                    Specialites uneSpe = new Specialites(idSpe, nomSpe);
+                    lesSpe.add(uneSpe);
+                }
+                while(resultat.next());
+                modele.closeConnection(co);  
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lesSpe;
+    }// Recupere les spécialités de la BDD.
 }

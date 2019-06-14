@@ -603,7 +603,7 @@ public class Principale extends javax.swing.JFrame {
 
             int idClientARecup = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
             String droitUtilisateur = jTable1.getValueAt(jTable1.getSelectedRow(), 8).toString();
-            if ("Cuisiniers".equals(droitUtilisateur)) {
+            if ("Cuisinier".equals(droitUtilisateur)) {
                 CreationUtilisateur.cuisinierPassé = Lecture.getUnCuisinier(idClientARecup);
                 final CreationUtilisateur frame = new CreationUtilisateur();
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

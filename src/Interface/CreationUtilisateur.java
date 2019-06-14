@@ -11,6 +11,7 @@ import Controleurs.Lecture;
 import Controleurs.Modification;
 import client.lourd.nesti.Clients;
 import client.lourd.nesti.Cuisiniers;
+import client.lourd.nesti.Specialites;
 import client.lourd.nesti.Ville;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -29,18 +30,17 @@ public class CreationUtilisateur extends javax.swing.JFrame {
     static Cuisiniers cuisinierPassé;
     int UltimeGlobalIdVille;
     int idDroit;
-    
+
     /**
      * Creates new form CreationUtilisateur
      */
     public CreationUtilisateur() {
         initComponents();
-        initComboVille();   
+        initComboVille();
 //        resetLesChamps();
-        if(clientPassé != null){
+        if (clientPassé != null) {
             initFenModification();
-        }
-        else if(cuisinierPassé != null){
+        } else if (cuisinierPassé != null) {
             initFenModificationCuisiniers();
         }
     }
@@ -85,6 +85,8 @@ public class CreationUtilisateur extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
+        ComboSpecialite = new javax.swing.JComboBox<>();
+        LabelSpecialite = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -237,6 +239,11 @@ public class CreationUtilisateur extends javax.swing.JFrame {
             }
         });
 
+        ComboSpecialite.setVisible(false);
+
+        LabelSpecialite.setVisible(false);
+        LabelSpecialite.setText("Specialité");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -257,19 +264,23 @@ public class CreationUtilisateur extends javax.swing.JFrame {
                                 .addComponent(jLabel9))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(9, 9, 9)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel10)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel11)
-                                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                                .addGap(10, 10, 10)
-                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabel5)
-                                                    .addComponent(jLabel4)))))
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addComponent(LabelSpecialite))
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel10)
+                                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                            .addGap(10, 10, 10)
+                                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel11)
+                                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                                    .addGap(10, 10, 10)
+                                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(jLabel5)
+                                                        .addComponent(jLabel4)))))
+                                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addGap(20, 20, 20)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -290,7 +301,6 @@ public class CreationUtilisateur extends javax.swing.JFrame {
                                 .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(champAdresse, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(champLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(champNom, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,13 +309,17 @@ public class CreationUtilisateur extends javax.swing.JFrame {
                                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(COMBOcp, javax.swing.GroupLayout.Alignment.LEADING, 0, 220, Short.MAX_VALUE)
                                         .addComponent(COMBOville, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jLabel1))
+                                    .addComponent(jLabel1)
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(ComboSpecialite, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 220, Short.MAX_VALUE)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(44, 44, 44)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -363,11 +377,15 @@ public class CreationUtilisateur extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(81, 81, 81))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ComboSpecialite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelSpecialite))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -392,13 +410,11 @@ public class CreationUtilisateur extends javax.swing.JFrame {
 
         if ("".equals(annee.getText())) {
             annee.setText("YYYY");
-        }
-        else {
+        } else {
             int i = Integer.parseInt(annee.getText());
-            if(i<= 1900 || i> 2019){
+            if (i <= 1900 || i > 2019) {
                 jLabel13.setText("Jour, Mois ou année erronée.");
-            }
-            else{
+            } else {
                 jLabel13.setText("");
             }
         }
@@ -414,8 +430,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
         boolean b = m.matches();
         if (annee.getText().length() >= 4) {
             evt.consume();
-        }
-        else if(!b){
+        } else if (!b) {
             evt.consume();
         }
     }//GEN-LAST:event_anneeKeyTyped
@@ -428,13 +443,11 @@ public class CreationUtilisateur extends javax.swing.JFrame {
 
         if ("".equals(mois.getText())) {
             mois.setText("MM");
-        }
-        else {
+        } else {
             int i = Integer.parseInt(mois.getText());
-            if(i > 12){
+            if (i > 12) {
                 jLabel13.setText("Jour, Mois ou année erronée.");
-            }
-            else{
+            } else {
                 jLabel13.setText("");
             }
         }
@@ -450,8 +463,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
         boolean b = m.matches();
         if (mois.getText().length() >= 2) {
             evt.consume();
-        }
-        else if(!b){
+        } else if (!b) {
             evt.consume();
         }
     }//GEN-LAST:event_moisKeyTyped
@@ -462,20 +474,18 @@ public class CreationUtilisateur extends javax.swing.JFrame {
 
     private void jourFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jourFocusLost
 
-            if ("".equals(jour.getText())) {
+        if ("".equals(jour.getText())) {
             jour.setText("JJ");
+        } else {
+            int i = Integer.parseInt(jour.getText());
+            if (i > 31) {
+                jLabel13.setText("Jour, Mois ou année erronée.");
+            } else {
+                jLabel13.setText("");
+            }
         }
-            else {
-                int i = Integer.parseInt(jour.getText());
-                if(i > 31){
-                    jLabel13.setText("Jour, Mois ou année erronée.");
-                }
-                else{
-                    jLabel13.setText("");
-                }
-        }
-        
-        
+
+
     }//GEN-LAST:event_jourFocusLost
 
     private void jourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jourActionPerformed
@@ -489,8 +499,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
         boolean b = m.matches();
         if (jour.getText().length() >= 2) {
             evt.consume();
-        }
-        else if(!b){
+        } else if (!b) {
             evt.consume();
         }
     }//GEN-LAST:event_jourKeyTyped
@@ -498,13 +507,13 @@ public class CreationUtilisateur extends javax.swing.JFrame {
     private void COMBOvilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_COMBOvilleActionPerformed
         System.out.println("oui !");
 
-        if(COMBOville.getSelectedIndex() != 0){
+        if (COMBOville.getSelectedIndex() != 0) {
             Object villeSelectionnee = COMBOville.getSelectedItem();
 
             String coucou = villeSelectionnee.toString();
             ArrayList<Ville> lesVilles = Lecture.getLesCP(coucou);
 
-            if(COMBOcp.getItemCount() != 1){
+            if (COMBOcp.getItemCount() != 1) {
                 COMBOcp.removeAllItems();
                 COMBOcp.addItem("Selectionnez un code postal !");
             }
@@ -512,7 +521,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
                 Ville uneVille = lesVilles.get(i);
 
                 COMBOcp.addItem(Integer.toString(uneVille.getCodePostal()));
-                if(UltimeGlobalIdVille != uneVille.getId()){
+                if (UltimeGlobalIdVille != uneVille.getId()) {
                     UltimeGlobalIdVille = uneVille.getId();
                 }
             }
@@ -524,41 +533,49 @@ public class CreationUtilisateur extends javax.swing.JFrame {
     }//GEN-LAST:event_COMBOcpActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            if (clientPassé != null || cuisinierPassé != null) {
+        boolean envoi;
+        if (clientPassé != null || cuisinierPassé != null) {
             String laDDN1 = annee.getText() + "-" + mois.getText() + "-" + jour.getText();
             Object objetCodePostal1 = COMBOcp.getSelectedItem();
             int leCodePostal1 = Integer.parseInt(objetCodePostal1.toString());
+            if(clientPassé != null){
+                envoi = Modification.modificationClient(clientPassé.getID(), champNom.getText(), champPrenom.getText(), laDDN1, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal1);
+            }else{
+                envoi = Modification.modificationCuisinier(cuisinierPassé.getID(), champNom.getText(), champPrenom.getText(), laDDN1, champAdresse.getText(), Mail.getText(), 3, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal1, ComboSpecialite.getSelectedItem().toString());
+            }
             
-            boolean envoi1 = Modification.modificationClient(clientPassé.getID(),champNom.getText(), champPrenom.getText(), laDDN1, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal1);
-            if (envoi1 == false) {
-                JOptionPane.showMessageDialog(jPanel4, "Le client n'a pas été modifié. Vérifiez votre saisie.", "ERROR", 2);
+            if (envoi == false) {
+                JOptionPane.showMessageDialog(jPanel4, "L'utilisateur n'a pas été modifié. Vérifiez votre saisie.", "ERROR", 2);
             } else {
-                JOptionPane.showMessageDialog(jPanel4, "Le client a bien été créé.");
+                JOptionPane.showMessageDialog(jPanel4, "L'utilisateur a bien été modifié.");
                 jButton2ActionPerformed(evt);
-            }}
-            else{
-                String laDDN = annee.getText()+"-"+mois.getText()+"-"+jour.getText();
-                Object objetCodePostal = COMBOcp.getSelectedItem();
-                int leCodePostal = Integer.parseInt(objetCodePostal.toString());
-                boolean envoi = Creation.creationNouvelUtilisateur(champNom.getText(), champPrenom.getText(), laDDN, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal);
-                if(envoi == false){
-                    JOptionPane.showMessageDialog(jPanel4, "Le client n'a pas été créé. Vérifiez votre saisie.","ERROR",2);
-                }
-                else{
-                    JOptionPane.showMessageDialog(jPanel4, "Le client a bien été créé.");
-                    jButton2ActionPerformed(evt);
-                }}
+            }
+        } else {
+            String laDDN = annee.getText() + "-" + mois.getText() + "-" + jour.getText();
+            Object objetCodePostal = COMBOcp.getSelectedItem();
+            int leCodePostal = Integer.parseInt(objetCodePostal.toString());
+            if (jComboBox1.getSelectedIndex() == 1) {
+                envoi = Creation.creationCuisinier(champNom.getText(), champPrenom.getText(), laDDN, champAdresse.getText(), Mail.getText(), 3, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal, ComboSpecialite.getSelectedItem().toString());
+            } else {
+                envoi = Creation.creationNouvelUtilisateur(champNom.getText(), champPrenom.getText(), laDDN, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal);
+            }
+            if (envoi == false) {
+                JOptionPane.showMessageDialog(jPanel4, "L'utilisateur n'a pas été créé. Vérifiez votre saisie.", "ERROR", 2);
+            } else {
+                JOptionPane.showMessageDialog(jPanel4, "L'utilisateur a bien été créé.");
+                jButton2ActionPerformed(evt);
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void champMdpFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_champMdpFocusLost
-        if(!"".equals(champMdp.getText())){
+        if (!"".equals(champMdp.getText())) {
             Pattern p = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[-+!*$@%_])([-+!*$@%_\\w]{8,15})$");
             Matcher m = p.matcher(champMdp.getText());
             boolean b = m.matches();
-            if(!b){
+            if (!b) {
                 jLabel14.setText("Mot de passe non valide");
-            }
-            else{
+            } else {
                 jLabel14.setText("");
             }
         }
@@ -566,51 +583,70 @@ public class CreationUtilisateur extends javax.swing.JFrame {
 
     private void jComboBox1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBox1FocusLost
         Object coucou = jComboBox1.getSelectedItem();
-        if(null != coucou.toString())switch (coucou.toString()) {
-            case "Admin":
-            idDroit = 1;
-            break;
-            case "Client":
-            idDroit = 2;
-            break;
-            case "Cuisinier":
-            idDroit = 3;
-            break;
-            default:
-            break;
+        if (null != coucou.toString()) {
+            switch (coucou.toString()) {
+                case "Admin":
+                    idDroit = 1;
+                    break;
+                case "Client":
+                    idDroit = 2;
+                    break;
+                case "Cuisinier":
+                    idDroit = 3;
+                    break;
+                default:
+                    break;
+            }
         }
     }//GEN-LAST:event_jComboBox1FocusLost
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        
+        System.out.println(jComboBox1.getItemCount());
+        if (jComboBox1.getSelectedIndex() == 1) {
+            if(ComboSpecialite.getItemCount() == 0){
+            ArrayList<Specialites> lesSpe = Lecture.getLesSpecialités();
+            ComboSpecialite.addItem("Selectionnez une spécialité !");
+            for (int i = 0; i <= lesSpe.size() - 1; i++) {
+                Specialites uneSpe = lesSpe.get(i);
+                ComboSpecialite.addItem(uneSpe.getNom());
+            }}
+            ComboSpecialite.setVisible(true);
+            LabelSpecialite.setVisible(true);
+        } else {
+            ComboSpecialite.setVisible(false);
+            LabelSpecialite.setVisible(false);
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         final Principale frame = new Principale();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
         CreationUtilisateur.clientPassé = null;
         CreationUtilisateur.cuisinierPassé = null;
         this.dispose();
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void initComboVille() {
         ArrayList<Ville> lesVilles = Lecture.getLesVilles();
         COMBOville.addItem("Selectionnez une ville!");
-        for (int i = 0; i <= lesVilles.size() -1; i++) {
+        for (int i = 0; i <= lesVilles.size() - 1; i++) {
             Ville uneVille = lesVilles.get(i);
             COMBOville.addItem(uneVille.getNom());
         }
     }
-    private void initFenModification(){
+
+    private void initFenModification() {
         jLabel1.setText("Modification utilisateur");
         champNom.setText(clientPassé.getNom());
         champPrenom.setText(clientPassé.getPrenom());
         champAdresse.setText(clientPassé.getAdresse());
         String test = clientPassé.getDdn();
         Mail.setText(clientPassé.getMail());
-        if(!"".equals(test)){
+        System.out.println(test);
+        if (test != null) {
             annee.setText(test.substring(0, 4));
             mois.setText(test.substring(5, 7));
             jour.setText(test.substring(8));
@@ -622,14 +658,15 @@ public class CreationUtilisateur extends javax.swing.JFrame {
         COMBOcp.setSelectedItem(clientPassé.getCodePostal());
         jComboBox1.setSelectedItem(clientPassé.getDroit().getNom());
     }
-    private void initFenModificationCuisiniers(){
+
+    private void initFenModificationCuisiniers() {
         jLabel1.setText("Modification utilisateur");
         champNom.setText(cuisinierPassé.getNom());
         champPrenom.setText(cuisinierPassé.getPrenom());
         champAdresse.setText(cuisinierPassé.getAdresse());
         String test = cuisinierPassé.getDdn();
         Mail.setText(cuisinierPassé.getMail());
-        if(!"".equals(test)){
+        if (!"".equals(test)) {
             annee.setText(test.substring(0, 4));
             mois.setText(test.substring(5, 7));
             jour.setText(test.substring(8));
@@ -649,7 +686,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
 //        champLogin.setText("");
 //        Mail.setText("");
 //    }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -688,6 +725,8 @@ public class CreationUtilisateur extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> COMBOcp;
     private javax.swing.JComboBox<String> COMBOville;
+    private javax.swing.JComboBox<String> ComboSpecialite;
+    private javax.swing.JLabel LabelSpecialite;
     private javax.swing.JTextField Mail;
     private javax.swing.JTextField annee;
     private javax.swing.JTextField champAdresse;
