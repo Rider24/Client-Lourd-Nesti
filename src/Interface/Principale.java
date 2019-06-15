@@ -14,6 +14,7 @@ import client.lourd.nesti.Cours;
 import client.lourd.nesti.Ingredients;
 import client.lourd.nesti.Recettes;
 import client.lourd.nesti.Themes;
+import client.lourd.nesti.Ville;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -84,6 +85,9 @@ public class Principale extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         TableCours = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -510,6 +514,22 @@ public class Principale extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Créer un cours");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Modifier");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("Supprimer");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -519,7 +539,12 @@ public class Principale extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(55, 55, 55)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -529,8 +554,12 @@ public class Principale extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(344, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion Cours", jPanel3);
@@ -807,8 +836,9 @@ public class Principale extends javax.swing.JFrame {
         if (model.getRowCount() != 0) {
             model.setRowCount(0);
         }
-
+        System.out.println(lesCours.size());
         for (int i = 0; i <= lesCours.size() - 1; i++) {
+            
             Cours unCours = lesCours.get(i);
             row[0] = unCours.getNomrecette();
             row[1] = unCours.getLieu();
@@ -820,6 +850,29 @@ public class Principale extends javax.swing.JFrame {
             model.addRow(row);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        final CreationCours frame = new CreationCours();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setAlwaysOnTop(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        String nomLieu = TableCours.getValueAt(TableCours.getSelectedRow(), 1).toString();
+        Ville uneVille = new Ville(TableCours.getValueAt(TableCours.getSelectedRow(), 2).toString(), Integer.parseInt(TableCours.getValueAt(TableCours.getSelectedRow(), 3).toString()));
+        String nomRec = TableCours.getValueAt(TableCours.getSelectedRow(), 0).toString();
+        String date = TableCours.getValueAt(TableCours.getSelectedRow(), 4).toString();
+        String nomCuisinier = TableCours.getValueAt(TableCours.getSelectedRow(), 5).toString();
+        int durée = Integer.parseInt(TableCours.getValueAt(TableCours.getSelectedRow(), 6).toString());
+        ModificationCours.coursPassé = new Cours(nomLieu, uneVille, nomRec, date, nomCuisinier, durée);
+        System.out.println("coucou");
+        final ModificationCours frame = new ModificationCours();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(780, 800);
+        frame.setVisible(true);
+        frame.setAlwaysOnTop(true);
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     private void initComboThemes() {
         ArrayList<Themes> lesThemes = Lecture.getLesThemes();
@@ -884,11 +937,14 @@ public class Principale extends javax.swing.JFrame {
     private javax.swing.JTextArea descriptRecette;
     private javax.swing.JButton gererIngredients;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JInternalFrame jInternalFrame2;
     private javax.swing.JLabel jLabel1;

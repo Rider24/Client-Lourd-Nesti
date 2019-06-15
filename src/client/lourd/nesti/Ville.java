@@ -20,6 +20,11 @@ public class Ville {
         this.CodePostal = CodePostal;
     }
 
+    public Ville(String nom, int CodePostal) {
+        this.nom = nom;
+        this.CodePostal = CodePostal;
+    }
+
     
 
     public int getId() {

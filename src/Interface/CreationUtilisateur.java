@@ -557,7 +557,7 @@ public class CreationUtilisateur extends javax.swing.JFrame {
             if (jComboBox1.getSelectedIndex() == 1) {
                 envoi = Creation.creationCuisinier(champNom.getText(), champPrenom.getText(), laDDN, champAdresse.getText(), Mail.getText(), 3, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal, ComboSpecialite.getSelectedItem().toString());
             } else {
-                envoi = Creation.creationNouvelUtilisateur(champNom.getText(), champPrenom.getText(), laDDN, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal);
+                envoi = Creation.creationUtilisateur(champNom.getText(), champPrenom.getText(), laDDN, champAdresse.getText(), Mail.getText(), idDroit, champLogin.getText(), Connexion.hashMotDePasse(champMdp.getText()), UltimeGlobalIdVille, leCodePostal);
             }
             if (envoi == false) {
                 JOptionPane.showMessageDialog(jPanel4, "L'utilisateur n'a pas été créé. Vérifiez votre saisie.", "ERROR", 2);

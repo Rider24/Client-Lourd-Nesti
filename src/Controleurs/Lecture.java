@@ -5,6 +5,7 @@
  */
 package Controleurs;
 
+import client.lourd.nesti.Categories;
 import client.lourd.nesti.Clients;
 import client.lourd.nesti.Cours;
 import client.lourd.nesti.Cuisiniers;
@@ -294,6 +295,58 @@ public class Lecture {
         }
         return lesIngredients;
     }// Renvoie un tableau contenant les ingredients necessaires a la recette passée en paramètre.
+    public static ArrayList getLesCategories(){
+        ArrayList<Categories> lesCategories = new ArrayList<>();
+        try {
+            Connection co = modele.startConnection();
+
+            Statement stmt = co.createStatement();
+
+            String query =  "select * from categorie";
+            ResultSet resultat = stmt.executeQuery(query);
+            if (resultat.next()) {
+                do {             
+                    Categories uneCategorie = new Categories(resultat.getInt("idCategorie"), resultat.getString("categorie"));
+                    lesCategories.add(uneCategorie);
+                }
+                while(resultat.next());
+                modele.closeConnection(co);                
+            }
+            else{
+                lesCategories = null;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lesCategories;
+    } // Récupère les categories de ma BDD
+    public static ArrayList getLesIngredientsSelonCategorie(String categorie){
+        ArrayList<Ingredients> lesIngredients = new ArrayList<>();
+        try {
+            Connection co = modele.startConnection();
+
+            Statement stmt = co.createStatement();
+
+            String query =  "select * from ingredients where Categorie_idCategorie = (SELECT idCategorie FROM categorie WHERE categorie = \"" + categorie + "\")";
+            ResultSet resultat = stmt.executeQuery(query);
+            if (resultat.next()) {
+                do {             
+                    Ingredients ingredient = new Ingredients(resultat.getInt("idIng"), resultat.getString("nom"));
+                    lesIngredients.add(ingredient);
+                }
+                while(resultat.next());
+                modele.closeConnection(co);                
+            }
+            else{
+                lesIngredients = null;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lesIngredients;
+    }
     public static ArrayList getLesCuisiniers(){
         ArrayList<Cuisiniers> lesCuisiniers = new ArrayList<>();
         try {
@@ -415,7 +468,6 @@ public class Lecture {
             String query = "SELECT DISTINCT Durée, lieux.nom, lieux.CodePostal_CodePostal_cp, recette.nom, plagehoraire.debut, ville.ville, ville.idVille, utilisateur.nomUser FROM cours\n" +
 "JOIN lieux ON cours.Lieux_idLieux = lieux.idLieux\n" +
 "JOIN recette ON cours.Recette_idRec = recette.idRec\n" +
-"JOIN inscription ON cours.Cuisinier_idCuisinier = inscription.Cours_Cuisinier_idCuisinier\n" +
 "JOIN plagehoraire ON cours.PlageHoraire_idPlageHoraire = plagehoraire.idPlageHoraire\n" +
 "JOIN ville ON lieux.CodePostal_Ville_idVille = ville.idVille\n" +
 "JOIN cuisinier ON cours.Cuisinier_idCuisinier = cuisinier.idCuisinier\n" +
@@ -450,7 +502,7 @@ public class Lecture {
 
             Statement stmt = co.createStatement();
             
-            String query = "SELECT * from plagehoraire";
+            String query = "SELECT idPlageHoraire, debut from plagehoraire";
             
             System.out.println(query);
             ResultSet resultat = stmt.executeQuery(query);

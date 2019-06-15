@@ -5,13 +5,16 @@
  */
 package Interface;
 
+import Controleurs.Creation;
 import Controleurs.Lecture;
 import client.lourd.nesti.Cuisiniers;
 import client.lourd.nesti.Lieux;
 import client.lourd.nesti.PlageHoraires;
 import client.lourd.nesti.Recettes;
 import client.lourd.nesti.Themes;
+import client.lourd.nesti.Ville;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Elrick
  */
 public class CreationCours extends javax.swing.JFrame {
+    int UltimeGlobalIdVille;
     protected static ArrayList<Recettes> lesRecettesStockées = new ArrayList<>();
     protected static ArrayList<PlageHoraires> lesPLagesHoraires = new ArrayList<>();
     protected static ArrayList<Lieux> lesLieux = new ArrayList<>();
@@ -33,6 +37,7 @@ public class CreationCours extends javax.swing.JFrame {
         initComboLieu();
         initTableCuisiniers();
         initComboTheme();
+        initComboVille();
     }
 
     /**
@@ -47,40 +52,42 @@ public class CreationCours extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        createLieu = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        NomLieu = new javax.swing.JTextField();
+        ComboVille = new javax.swing.JComboBox<>();
+        ComboCP = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         ComboLieu = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         ComboPlageHoraire = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        Annee = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
+        anneePlage = new javax.swing.JTextField();
+        moisPlage = new javax.swing.JTextField();
+        jourPlage = new javax.swing.JTextField();
+        heurePlage = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        minutePlage = new javax.swing.JTextField();
+        créePlageHoraire = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboDuréePlage = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableRecettes = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         TableCuisiniers = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        creeRecette = new javax.swing.JButton();
+        annuler = new javax.swing.JButton();
         ComboTheme = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
 
@@ -94,7 +101,12 @@ public class CreationCours extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jLabel4.setText("OU");
 
-        jButton1.setText("Créer un lieu");
+        createLieu.setText("Créer un lieu");
+        createLieu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createLieuActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel5.setText("Nom du lieu :");
@@ -103,11 +115,14 @@ public class CreationCours extends javax.swing.JFrame {
 
         jLabel7.setText("Code postal :");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        ComboVille.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ville" }));
+        ComboVille.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                ComboVilleActionPerformed(evt);
             }
         });
+
+        ComboCP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Code postal" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,20 +130,21 @@ public class CreationCours extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NomLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(ComboVille, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel7))
-                .addGap(0, 19, Short.MAX_VALUE))
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(ComboCP, 0, 97, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(createLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,25 +156,40 @@ public class CreationCours extends javax.swing.JFrame {
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(NomLieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(createLieu)
+                    .addComponent(ComboVille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ComboCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
+        ComboLieu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboLieuActionPerformed(evt);
+            }
+        });
+
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jLabel3.setText("Lieu du cours :");
+
+        jLabel16.setVisible(false);
+        jLabel16.setText("Ville :");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ComboLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel17)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(ComboLieu, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -168,7 +199,11 @@ public class CreationCours extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ComboLieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         jLabel8.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
@@ -177,21 +212,26 @@ public class CreationCours extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jLabel9.setText("OU");
 
-        Annee.setEditable(false);
-        Annee.setText("2019");
-        Annee.setFocusable(false);
+        anneePlage.setEditable(false);
+        anneePlage.setText("2019");
+        anneePlage.setFocusable(false);
 
-        jTextField5.setText("MM");
+        moisPlage.setText("MM");
 
-        jTextField6.setText("JJ");
+        jourPlage.setText("JJ");
 
-        jTextField7.setText("HH");
+        heurePlage.setText("HH");
 
         jLabel10.setText("/");
 
-        jTextField8.setText("MM");
+        minutePlage.setText("MM");
 
-        jButton2.setText("Créer un horaire");
+        créePlageHoraire.setText("Créer un horaire");
+        créePlageHoraire.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                créePlageHoraireActionPerformed(evt);
+            }
+        });
 
         jLabel12.setText("/");
 
@@ -200,7 +240,7 @@ public class CreationCours extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jLabel15.setText("Durée du cours :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez une durée", "1", "2", "3", "4" }));
+        comboDuréePlage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez une durée", "1", "2", "3", "4" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -217,7 +257,7 @@ public class CreationCours extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(comboDuréePlage, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(18, 18, 18)
@@ -225,23 +265,23 @@ public class CreationCours extends javax.swing.JFrame {
                         .addGap(36, 36, 36)
                         .addComponent(jLabel9)
                         .addGap(39, 39, 39)
-                        .addComponent(Annee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(anneePlage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(moisPlage, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jourPlage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(heurePlage, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(minutePlage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
-                        .addComponent(jButton2)
+                        .addComponent(créePlageHoraire)
                         .addGap(24, 24, 24))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -252,15 +292,15 @@ public class CreationCours extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Annee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(anneePlage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(heurePlage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel10)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(minutePlage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel12)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(moisPlage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel13)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2))
+                        .addComponent(jourPlage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(créePlageHoraire))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8)
                         .addComponent(ComboPlageHoraire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -268,7 +308,7 @@ public class CreationCours extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboDuréePlage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -305,12 +345,19 @@ public class CreationCours extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nom", "Prenom"
+                "Numéro", "Nom", "Prenom"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -318,9 +365,19 @@ public class CreationCours extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(TableCuisiniers);
 
-        jButton3.setText("Créer le cours");
+        creeRecette.setText("Créer le cours");
+        creeRecette.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                creeRecetteActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Annuler et quitter");
+        annuler.setText("Annuler et quitter");
+        annuler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                annulerActionPerformed(evt);
+            }
+        });
 
         ComboTheme.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         ComboTheme.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tout afficher" }));
@@ -350,12 +407,12 @@ public class CreationCours extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(creeRecette, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(annuler, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ComboTheme, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ComboTheme, 0, 140, Short.MAX_VALUE)
                         .addGap(561, 561, 561)))
                 .addContainerGap())
         );
@@ -371,9 +428,9 @@ public class CreationCours extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(creeRecette, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(7, 7, 7)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(annuler, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -388,16 +445,18 @@ public class CreationCours extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel4)))
-                        .addGap(52, 52, 52)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -409,11 +468,11 @@ public class CreationCours extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(28, 28, 28)
+                                .addComponent(jLabel4))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel4))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -426,10 +485,6 @@ public class CreationCours extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void ComboThemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboThemeActionPerformed
         if (ComboTheme.getSelectedIndex() != 0) {
@@ -457,6 +512,81 @@ public class CreationCours extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ComboThemeActionPerformed
 
+    private void createLieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createLieuActionPerformed
+        boolean resultat = Creation.creationLieu(NomLieu.getText(), ComboVille.getSelectedItem().toString(), Integer.parseInt(ComboCP.getSelectedItem().toString()));
+        if(resultat){
+            JOptionPane.showMessageDialog(null, "Lieu crée, ajouté a la liste de lieux sur la gauche.", "Bravo !", 2);
+            ComboLieu.removeAllItems();
+            initComboLieu();
+            resetAprèsCreation();
+        }else{
+            JOptionPane.showMessageDialog(null, "Lieu non créé, verifiez votre saisie.", "ERROR", 2);
+        }
+        
+    }//GEN-LAST:event_createLieuActionPerformed
+
+    private void ComboVilleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboVilleActionPerformed
+        if (ComboVille.getSelectedIndex() != 0) {
+            Object villeSelectionnee = ComboVille.getSelectedItem();
+
+            String coucou = villeSelectionnee.toString();
+            ArrayList<Ville> lesVilles = Lecture.getLesCP(coucou);
+
+            if (ComboCP.getItemCount() != 1) {
+                ComboCP.removeAllItems();
+                ComboCP.addItem("CP");
+            }
+            for (int i = 0; i <= lesVilles.size() - 1; i++) {
+                Ville uneVille = lesVilles.get(i);
+
+                ComboCP.addItem(Integer.toString(uneVille.getCodePostal()));
+                if (UltimeGlobalIdVille != uneVille.getId()) {
+                    UltimeGlobalIdVille = uneVille.getId();
+                }
+            }
+        }
+    }//GEN-LAST:event_ComboVilleActionPerformed
+
+    private void créePlageHoraireActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_créePlageHoraireActionPerformed
+        String plageHoraire = anneePlage.getText() + "-" + moisPlage.getText()+"-"+jourPlage.getText()+" "+heurePlage.getText()+":"+minutePlage.getText()+":00";
+        if(Creation.creationHoraire(plageHoraire)){
+            JOptionPane.showMessageDialog(null, "Plage horaire crée, ajoutée a la liste sur la gauche.", "Bravo !", 2);
+            ComboPlageHoraire.removeAllItems();
+            initComboPlageHoraire();
+            resetAprèsCreation();
+        }else{
+            JOptionPane.showMessageDialog(null, "Plage horaire non créée, verifiez votre saisie.", "ERROR", 2);
+        }
+    }//GEN-LAST:event_créePlageHoraireActionPerformed
+
+    private void creeRecetteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creeRecetteActionPerformed
+        if(Creation.creationCours(tableRecettes.getValueAt(tableRecettes.getSelectedRow(), 0).toString(), Integer.parseInt(TableCuisiniers.getValueAt(TableCuisiniers.getSelectedRow(), 0).toString()), ComboLieu.getSelectedItem().toString(),jLabel17.getText(), ComboPlageHoraire.getSelectedItem().toString(), Integer.parseInt(comboDuréePlage.getSelectedItem().toString()))){
+            System.out.println("T'es Dieu putain.");
+            JOptionPane.showMessageDialog(null, "Cours créé avec succès. Pas de doublon, pas de problème, génial...", "Bravo !", 2);
+    }else{
+            JOptionPane.showMessageDialog(null, "Un doublon du cours existe (possiblement un cuisinier qui as deux cours au meme moment ?)", "Dommage !", 2);
+        }
+    }//GEN-LAST:event_creeRecetteActionPerformed
+
+    private void ComboLieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboLieuActionPerformed
+        
+        if(ComboLieu.getSelectedIndex() != 0){
+            Lieux selectedLieu = lesLieux.get(ComboLieu.getSelectedIndex()-1);
+            jLabel16.setVisible(true);
+            jLabel17.setText(selectedLieu.getVille().getNom());
+        }else{
+            jLabel16.setVisible(false);
+            jLabel17.setText("");
+        }
+        
+
+    }//GEN-LAST:event_ComboLieuActionPerformed
+
+    private void annulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annulerActionPerformed
+        resetTotal();
+        this.dispose();
+    }//GEN-LAST:event_annulerActionPerformed
+
     private void initTableRecettes(){
         lesRecettesStockées = Lecture.getLesRecettes();
         DefaultTableModel model = (DefaultTableModel) tableRecettes.getModel();
@@ -483,7 +613,7 @@ public class CreationCours extends javax.swing.JFrame {
     }
     private void initComboLieu(){
         lesLieux = Lecture.getLesLieux();
-        ComboLieu.addItem("Selectionnez une plage horaire !");
+        ComboLieu.addItem("Selectionnez un lieu !");
         for (int i = 0; i <= lesLieux.size() - 1; i++) {
             Lieux unLieu = lesLieux.get(i);
             ComboLieu.addItem(unLieu.getNom());
@@ -492,7 +622,7 @@ public class CreationCours extends javax.swing.JFrame {
     private void initTableCuisiniers(){
         lesCuisiniers = Lecture.getLesCuisiniers();
         DefaultTableModel model = (DefaultTableModel) TableCuisiniers.getModel();
-        Object[] row = new Object[2];
+        Object[] row = new Object[3];
 
         if (model.getRowCount() != 0) {
             model.setRowCount(0);
@@ -500,8 +630,9 @@ public class CreationCours extends javax.swing.JFrame {
 
         for (int i = 0; i <= lesCuisiniers.size() - 1; i++) {
             Cuisiniers unCuisinier = lesCuisiniers.get(i);
-            row[0] = unCuisinier.getNom();
-            row[1] = unCuisinier.getPrenom();
+            row[0] = unCuisinier.getID();
+            row[1] = unCuisinier.getNom();
+            row[2] = unCuisinier.getPrenom();
 
             model.addRow(row);
         }
@@ -513,6 +644,31 @@ public class CreationCours extends javax.swing.JFrame {
             Themes unTheme = lesThemes.get(i);
             ComboTheme.addItem(unTheme.getName());
         }
+    }
+    private void initComboVille(){
+        ArrayList<Ville> lesVilles = Lecture.getLesVilles();
+        for (int i = 0; i <= lesVilles.size() - 1; i++) {
+            Ville uneVille = lesVilles.get(i);
+            ComboVille.addItem(uneVille.getNom());
+        }
+    }
+    private void resetAprèsCreation(){
+        ComboVille.setSelectedIndex(0);
+        ComboCP.setSelectedIndex(0);
+        NomLieu.setText("");    
+        moisPlage.setText("MM");
+        jourPlage.setText("JJ");
+        heurePlage.setText("HH");
+        minutePlage.setText("MM");
+    }
+    private void resetTotal(){
+        ComboVille.setSelectedIndex(0);
+        ComboCP.setSelectedIndex(0);
+        NomLieu.setText("");    
+        moisPlage.setText("MM");
+        jourPlage.setText("JJ");
+        heurePlage.setText("HH");
+        minutePlage.setText("MM");
     }
     /**
      * @param args the command line arguments
@@ -550,16 +706,20 @@ public class CreationCours extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Annee;
+    private javax.swing.JComboBox<String> ComboCP;
     private javax.swing.JComboBox<String> ComboLieu;
     private javax.swing.JComboBox<String> ComboPlageHoraire;
     private javax.swing.JComboBox<String> ComboTheme;
+    private javax.swing.JComboBox<String> ComboVille;
+    private javax.swing.JTextField NomLieu;
     private javax.swing.JTable TableCuisiniers;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTextField anneePlage;
+    private javax.swing.JButton annuler;
+    private javax.swing.JComboBox<String> comboDuréePlage;
+    private javax.swing.JButton createLieu;
+    private javax.swing.JButton creeRecette;
+    private javax.swing.JButton créePlageHoraire;
+    private javax.swing.JTextField heurePlage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -567,6 +727,8 @@ public class CreationCours extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -581,13 +743,9 @@ public class CreationCours extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jourPlage;
+    private javax.swing.JTextField minutePlage;
+    private javax.swing.JTextField moisPlage;
     private javax.swing.JTable tableRecettes;
     // End of variables declaration//GEN-END:variables
 }

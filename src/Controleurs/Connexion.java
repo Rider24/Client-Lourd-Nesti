@@ -52,7 +52,6 @@ public class Connexion {
         return reponse;
     }  
     public static String hashMotDePasse(String mdp){
-        mdp = "test";
             byte[] byteChaine = null;
             try {
                 byteChaine = mdp.getBytes("UTF-8");
