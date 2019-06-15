@@ -23,9 +23,25 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CreationCours extends javax.swing.JFrame {
     int UltimeGlobalIdVille;
+
+    /**
+     *
+     */
     protected static ArrayList<Recettes> lesRecettesStockées = new ArrayList<>();
+
+    /**
+     *
+     */
     protected static ArrayList<PlageHoraires> lesPLagesHoraires = new ArrayList<>();
+
+    /**
+     *
+     */
     protected static ArrayList<Lieux> lesLieux = new ArrayList<>();
+
+    /**
+     *
+     */
     protected static ArrayList<Cuisiniers> lesCuisiniers = new ArrayList<>();
     /**
      * Creates new form CreationCours

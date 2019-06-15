@@ -19,6 +19,21 @@ import modele.modele;
 public class Creation {
 
     // Création d'un nouvel utilisateur, selon les valeurs renseignées dans le formulaire.
+
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @param dateNaissance
+     * @param adresse
+     * @param mail
+     * @param droits
+     * @param login
+     * @param mdp
+     * @param idVille
+     * @param codePostal
+     * @return
+     */
     public static boolean creationUtilisateur(String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal) {
         boolean AEnvoyer;
         try {
@@ -47,6 +62,12 @@ public class Creation {
         return AEnvoyer;
     }
 
+    /**
+     *
+     * @param idIng
+     * @param idRec
+     * @return
+     */
     public static boolean ajoutIngredientRecette(int idIng, int idRec) {
         boolean renvoi = false;
         try {
@@ -67,6 +88,13 @@ public class Creation {
         return renvoi;
     }
 
+    /**
+     *
+     * @param nom
+     * @param descript
+     * @param nomTheme
+     * @return
+     */
     public static boolean creationRecette(String nom, String descript, String nomTheme) {
         try {
             Connection co = modele.startConnection();
@@ -92,6 +120,21 @@ public class Creation {
 
     }
     
+    /**
+     *
+     * @param nom
+     * @param prenom
+     * @param dateNaissance
+     * @param adresse
+     * @param mail
+     * @param droits
+     * @param login
+     * @param mdp
+     * @param idVille
+     * @param codePostal
+     * @param specialite
+     * @return
+     */
     public static boolean creationCuisinier(String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal, String specialite){        
         try {
             Connection co = modele.startConnection();
@@ -123,6 +166,13 @@ public class Creation {
         }
     }
 
+    /**
+     *
+     * @param nomLieu
+     * @param nomVille
+     * @param cp
+     * @return
+     */
     public static boolean creationLieu(String nomLieu, String nomVille, int cp){
         try {
             Connection co = modele.startConnection();
@@ -148,6 +198,11 @@ public class Creation {
         }
     }
     
+    /**
+     *
+     * @param plageHoraire
+     * @return
+     */
     public static boolean creationHoraire(String plageHoraire){
         try {
             Connection co = modele.startConnection();
@@ -172,6 +227,16 @@ public class Creation {
         }
     }
     
+    /**
+     *
+     * @param nomRecette
+     * @param idCuisinier
+     * @param nomLieu
+     * @param nomVille
+     * @param plage
+     * @param durée
+     * @return
+     */
     public static boolean creationCours(String nomRecette, int idCuisinier, String nomLieu, String nomVille, String plage, int durée){
         try {
             Connection co = modele.startConnection();

@@ -17,6 +17,22 @@ import modele.modele;
  * @author Elrick
  */
 public class Modification {
+
+    /**
+     *
+     * @param idUser
+     * @param nom
+     * @param prenom
+     * @param dateNaissance
+     * @param adresse
+     * @param mail
+     * @param droits
+     * @param login
+     * @param mdp
+     * @param idVille
+     * @param codePostal
+     * @return
+     */
     public static boolean modificationClient(int idUser, String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal){
         try {
             Connection co = modele.startConnection();
@@ -42,6 +58,15 @@ public class Modification {
             Logger.getLogger(Modification.class.getName()).log(Level.SEVERE, null, ex);
             return false;
     }}
+
+    /**
+     *
+     * @param idRec
+     * @param nomRecette
+     * @param desc
+     * @param nomTheme
+     * @return
+     */
     public static boolean modificationRecette(int idRec, String nomRecette, String desc, String nomTheme){
         try {
             Connection co = modele.startConnection();
@@ -65,6 +90,15 @@ public class Modification {
             return false;
     }
 }
+
+    /**
+     *
+     * @param idIng
+     * @param idRec
+     * @param quantite
+     * @param unite
+     * @return
+     */
     public static boolean modificationIngredientsRecette(int idIng, int idRec, int quantite, String unite){
         try{
 
@@ -90,6 +124,23 @@ public class Modification {
     }
         return true;      
     } 
+
+    /**
+     *
+     * @param idUser
+     * @param nom
+     * @param prenom
+     * @param dateNaissance
+     * @param adresse
+     * @param mail
+     * @param droits
+     * @param login
+     * @param mdp
+     * @param idVille
+     * @param codePostal
+     * @param specialite
+     * @return
+     */
     public static boolean modificationCuisinier(int idUser, String nom, String prenom, String dateNaissance, String adresse, String mail, int droits, String login, String mdp, int idVille, int codePostal, String specialite){
         try {
             Connection co = modele.startConnection();
@@ -117,6 +168,20 @@ public class Modification {
     }
         
     }
+
+    /**
+     *
+     * @param idRec
+     * @param idCuis
+     * @param nomLieu
+     * @param idPlage
+     * @param date
+     * @param durée
+     * @param ancienCuis
+     * @param ancienPlage
+     * @param ancienDate
+     * @return
+     */
     public static boolean modificationCours(int idRec, int idCuis, String nomLieu, int idPlage, String date, int durée, int ancienCuis, int ancienPlage, String ancienDate){
         try {
             Connection co = modele.startConnection();

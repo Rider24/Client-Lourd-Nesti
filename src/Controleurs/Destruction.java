@@ -18,6 +18,10 @@ import modele.modele;
  */
 public class Destruction {
     
+    /**
+     *
+     * @param idUser
+     */
     public static void deleteUser(int idUser){
         try {
             Connection co = modele.startConnection();
@@ -32,6 +36,11 @@ public class Destruction {
             Logger.getLogger(Destruction.class.getName()).log(Level.SEVERE, null, ex);
         }
     } // Supprime l'utilisateur dont l'Id a été passé en paramètre
+
+    /**
+     *
+     * @param uneRecette
+     */
     public static void deleteRecette(String uneRecette){
         try {
             Connection co = modele.startConnection();
@@ -44,6 +53,12 @@ public class Destruction {
             Logger.getLogger(Destruction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     *
+     * @param idIng
+     * @param idRec
+     */
     public static void deleteIngredientRecette(int idIng, int idRec){
         try{
         Connection co = modele.startConnection();
@@ -57,6 +72,13 @@ public class Destruction {
     }
                 
     }
+
+    /**
+     *
+     * @param idCuisinier
+     * @param idPLageHoraire
+     * @param date
+     */
     public static void deleteCours(int idCuisinier, int idPLageHoraire, String date){
         try{
         Connection co = modele.startConnection();

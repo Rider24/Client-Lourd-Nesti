@@ -33,6 +33,10 @@ import modele.modele;
  */
 public class Lecture {
 
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesVilles() {
         ArrayList<Ville> lesVilles = new ArrayList<>();
         try {
@@ -61,6 +65,12 @@ public class Lecture {
         }
         return lesVilles;
     }// Recupère toutes les villes depuis la base de données
+
+    /**
+     *
+     * @param nomVille
+     * @return
+     */
     public static ArrayList getLesCP(String nomVille){
         ArrayList<Ville> lesVilles = new ArrayList<>();
         try {
@@ -90,6 +100,11 @@ public class Lecture {
         }
         return lesVilles;    
     }// Récupère les codes postaux selon la ville renseignée.
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesUtilisateur(){
         ArrayList<Clients> lesClients = new ArrayList<>();
         try {
@@ -129,6 +144,12 @@ public class Lecture {
         }
         return lesClients;
     }  // Recupère les utilisateurs de la base de donnée
+
+    /**
+     *
+     * @param ID
+     * @return
+     */
     public static Clients   getUnUtilisateur(int ID){
         Clients unClient = null;
         try {
@@ -167,6 +188,12 @@ public class Lecture {
         }
         return unClient;
     } // renvoie un utilisateur de type Client
+
+    /**
+     *
+     * @param nomTheme
+     * @return
+     */
     public static ArrayList getLesRecettesSelonTheme(String nomTheme){
         ArrayList<Recettes> lesRecettes = new ArrayList<>();
         try {
@@ -195,6 +222,11 @@ public class Lecture {
         return lesRecettes;
         
     } // Attrape les recettes de la base selon le thème
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesRecettes(){
         ArrayList<Recettes> lesRecettes = new ArrayList<>();
         try {
@@ -222,6 +254,11 @@ public class Lecture {
         }
         return lesRecettes;
     } // Récupère les recettes de la BDD
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesThemes(){
         ArrayList<Themes> lesThemes = new ArrayList<>();
         try {
@@ -248,6 +285,12 @@ public class Lecture {
         }
         return lesThemes;
     } // Récupère les themes.
+
+    /**
+     *
+     * @param nomRecette
+     * @return
+     */
     public static Recettes  getUneRecette( String nomRecette){
         Recettes laRecette = null;
         try {
@@ -267,6 +310,12 @@ public class Lecture {
         }
         return laRecette;
     } // Renvoie le nom et la description correspondants a la recette passée en paramètre
+
+    /**
+     *
+     * @param nomRecette
+     * @return
+     */
     public static ArrayList getLesIngredientsDeUneRecette(String nomRecette){
         ArrayList<Ingredients> lesIngredients= new ArrayList<>();
         try {
@@ -295,6 +344,11 @@ public class Lecture {
         }
         return lesIngredients;
     }// Renvoie un tableau contenant les ingredients necessaires a la recette passée en paramètre.
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesCategories(){
         ArrayList<Categories> lesCategories = new ArrayList<>();
         try {
@@ -321,6 +375,12 @@ public class Lecture {
         }
         return lesCategories;
     } // Récupère les categories de ma BDD
+
+    /**
+     *
+     * @param categorie
+     * @return
+     */
     public static ArrayList getLesIngredientsSelonCategorie(String categorie){
         ArrayList<Ingredients> lesIngredients = new ArrayList<>();
         try {
@@ -347,6 +407,11 @@ public class Lecture {
         }
         return lesIngredients;
     }
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesCuisiniers(){
         ArrayList<Cuisiniers> lesCuisiniers = new ArrayList<>();
         try {
@@ -388,6 +453,12 @@ public class Lecture {
         }
         return lesCuisiniers;
     } // Récupère les cuisiniers de la BDD
+
+    /**
+     *
+     * @param ID
+     * @return
+     */
     public static Cuisiniers getUnCuisinier(int ID){
         Cuisiniers unCuisinier = null;
         try {
@@ -430,6 +501,13 @@ public class Lecture {
         }
         return unCuisinier;
     } // Récupère un cuisinier selon son ID.
+
+    /**
+     *
+     * @param nomCuisinier
+     * @param prenomCuisinier
+     * @return
+     */
     public static Cuisiniers getUnCuisinier(String nomCuisinier, String prenomCuisinier){
         Cuisiniers unCuisinier = null;
         try {
@@ -472,6 +550,11 @@ public class Lecture {
         }
         return unCuisinier;
     }
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesIngredients(){
         ArrayList<Ingredients> lesIngredients = new ArrayList<>();
         
@@ -499,6 +582,11 @@ public class Lecture {
         }
         return lesIngredients;
     } // Renvoie un tableau contenant tous les ingredients.
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesCours(){
         ArrayList<Cours> lesCours = new ArrayList<>();
         
@@ -536,6 +624,11 @@ public class Lecture {
         }
         return lesCours;
     } // Récupère tous les cours de la base de donnée
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesPlagesHoraires(){
         ArrayList<PlageHoraires> lesPlages = new ArrayList<>();
         
@@ -564,6 +657,11 @@ public class Lecture {
         }
         return lesPlages;
     } // Récupère les plages horaires de la table.
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesLieux(){
         ArrayList<Lieux> lesLieux = new ArrayList<>();
         try {
@@ -590,6 +688,11 @@ public class Lecture {
         }
         return lesLieux;
     }// Récupère les lieux de la base de donnée
+
+    /**
+     *
+     * @return
+     */
     public static ArrayList getLesSpecialités(){
         ArrayList<Specialites> lesSpe = new ArrayList<>();
         try {
@@ -615,6 +718,12 @@ public class Lecture {
         }
         return lesSpe;
     }// Recupere les spécialités de la BDD.
+
+    /**
+     *
+     * @param plage
+     * @return
+     */
     public static PlageHoraires getUnePLage(String plage){
         PlageHoraires unePlage = null;
         try {
