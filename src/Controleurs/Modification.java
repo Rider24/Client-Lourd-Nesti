@@ -117,4 +117,36 @@ public class Modification {
     }
         
     }
+    public static boolean modificationCours(int idRec, int idCuis, String nomLieu, int idPlage, String date, int durée, int ancienCuis, int ancienPlage, String ancienDate){
+        try {
+            Connection co = modele.startConnection();
+            
+            Statement declaration = co.createStatement();
+            
+            
+            String query = "UPDATE `cours` SET `Recette_idRec` = " + idRec +", \n" +
+                            "`Cuisinier_idCuisinier` = " + idCuis + ",\n" +
+                            "`Lieux_idLieux` = (SELECT idLieux FROM lieux WHERE nom =  \"" + nomLieu +"\"), \n" +
+                            "`PlageHoraire_idPlageHoraire` = " + idPlage + ", \n" +
+                            "`date` = \"" + date +"\", \n" +
+                            "`Durée` = " + durée +"\n" +
+                            "WHERE `cours`.`Cuisinier_idCuisinier` = " + ancienCuis + " \n" +
+                            "AND `cours`.`PlageHoraire_idPlageHoraire` = " + ancienPlage + " \n" +
+                            "AND `cours`.`date` = \"" + ancienDate +"\";";
+            System.out.println(query);
+            int retour = declaration.executeUpdate(query);
+            
+            if(retour == 1){
+                modele.closeConnection(co);
+                return true;
+            }
+            else{
+                modele.closeConnection(co);
+                return false;
+            }         
+        } catch (SQLException ex) {
+            Logger.getLogger(Modification.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+    }
+    }
 }

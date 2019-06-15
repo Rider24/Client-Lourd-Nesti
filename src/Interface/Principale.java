@@ -487,14 +487,14 @@ public class Principale extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nom de la recette", "Nom du lieu", "Ville", "Code postal", "Date du cours", "Nom du cuisinier", "Durée (en heures)"
+                "Nom de la recette", "Nom du lieu", "Ville", "Code postal", "Date du cours", "Nom du cuisinier", "Prénom cuisinier", "Durée (en heures)"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -529,6 +529,11 @@ public class Principale extends javax.swing.JFrame {
         });
 
         jButton10.setText("Supprimer");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -831,7 +836,7 @@ public class Principale extends javax.swing.JFrame {
         ArrayList<Cours> lesCours = Lecture.getLesCours();
         
         DefaultTableModel model = (DefaultTableModel) TableCours.getModel();
-        Object[] row = new Object[7];
+        Object[] row = new Object[8];
 
         if (model.getRowCount() != 0) {
             model.setRowCount(0);
@@ -845,8 +850,9 @@ public class Principale extends javax.swing.JFrame {
             row[2] = unCours.getVille().getNom();
             row[3] = unCours.getVille().getCodePostal();
             row[4] = unCours.getDate();
-            row[5] = unCours.getCuisinier();
-            row[6] = unCours.getDurée();
+            row[5] = unCours.getNomCuisinier();
+            row[6] = unCours.getPrenomCuisinier();
+            row[7] = unCours.getDurée();
             model.addRow(row);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -860,19 +866,35 @@ public class Principale extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         String nomLieu = TableCours.getValueAt(TableCours.getSelectedRow(), 1).toString();
+        System.out.println(nomLieu);
         Ville uneVille = new Ville(TableCours.getValueAt(TableCours.getSelectedRow(), 2).toString(), Integer.parseInt(TableCours.getValueAt(TableCours.getSelectedRow(), 3).toString()));
         String nomRec = TableCours.getValueAt(TableCours.getSelectedRow(), 0).toString();
         String date = TableCours.getValueAt(TableCours.getSelectedRow(), 4).toString();
         String nomCuisinier = TableCours.getValueAt(TableCours.getSelectedRow(), 5).toString();
-        int durée = Integer.parseInt(TableCours.getValueAt(TableCours.getSelectedRow(), 6).toString());
-        ModificationCours.coursPassé = new Cours(nomLieu, uneVille, nomRec, date, nomCuisinier, durée);
-        System.out.println("coucou");
+        String prenomCuisinier = TableCours.getValueAt(TableCours.getSelectedRow(), 6).toString();
+        int durée = Integer.parseInt(TableCours.getValueAt(TableCours.getSelectedRow(), 7).toString());
+        ModificationCours.coursPassé = new Cours(nomLieu, uneVille, nomRec, date, nomCuisinier, prenomCuisinier, durée);
+        
+        
         final ModificationCours frame = new ModificationCours();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(780, 800);
         frame.setVisible(true);
         frame.setAlwaysOnTop(true);
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        int idCuisinier = Lecture.getUnCuisinier(TableCours.getValueAt(TableCours.getSelectedRow(), 5).toString(), TableCours.getValueAt(TableCours.getSelectedRow(), 6).toString()).getID();
+        String nomPlageHoraire = TableCours.getValueAt(TableCours.getSelectedRow(), 4).toString();
+        int idPlageHoraire = Lecture.getUnePLage(nomPlageHoraire).getID();
+        String date = nomPlageHoraire.substring(0, 4)+"-"+nomPlageHoraire.substring(5, 7)+"-"+nomPlageHoraire.substring(8,10);
+        System.out.println(idCuisinier);
+        System.out.println(nomPlageHoraire);
+        System.out.println(date);
+        
+        Destruction.deleteCours(idCuisinier, idPlageHoraire, date);
+        JOptionPane.showMessageDialog(jPanel1, "Suppression effectuée.", "Bravo !", 2);
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     private void initComboThemes() {
         ArrayList<Themes> lesThemes = Lecture.getLesThemes();

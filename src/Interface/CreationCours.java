@@ -561,10 +561,9 @@ public class CreationCours extends javax.swing.JFrame {
 
     private void creeRecetteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creeRecetteActionPerformed
         if(Creation.creationCours(tableRecettes.getValueAt(tableRecettes.getSelectedRow(), 0).toString(), Integer.parseInt(TableCuisiniers.getValueAt(TableCuisiniers.getSelectedRow(), 0).toString()), ComboLieu.getSelectedItem().toString(),jLabel17.getText(), ComboPlageHoraire.getSelectedItem().toString(), Integer.parseInt(comboDuréePlage.getSelectedItem().toString()))){
-            System.out.println("T'es Dieu putain.");
-            JOptionPane.showMessageDialog(null, "Cours créé avec succès. Pas de doublon, pas de problème, génial...", "Bravo !", 2);
+            JOptionPane.showMessageDialog(jPanel1, "Cours créé avec succès. Pas de doublon, pas de problème, génial...", "Bravo !", 2);
     }else{
-            JOptionPane.showMessageDialog(null, "Un doublon du cours existe (possiblement un cuisinier qui as deux cours au meme moment ?)", "Dommage !", 2);
+            JOptionPane.showMessageDialog(jPanel1, "Un doublon du cours existe (possiblement un cuisinier qui as deux cours au meme moment ?)", "Dommage !", 2);
         }
     }//GEN-LAST:event_creeRecetteActionPerformed
 

@@ -57,4 +57,17 @@ public class Destruction {
     }
                 
     }
+    public static void deleteCours(int idCuisinier, int idPLageHoraire, String date){
+        try{
+        Connection co = modele.startConnection();
+            
+                Statement stmt = co.createStatement();
+              
+            String query = "DELETE FROM `cours` WHERE `cours`.`Cuisinier_idCuisinier` = " + idCuisinier + " AND `cours`.`PlageHoraire_idPlageHoraire` = " + idPLageHoraire + " AND `cours`.`date` = \"" + date +"\"";
+                        System.out.println(query);
+            stmt.execute(query);
+        }catch (SQLException ex) {
+            Logger.getLogger(Destruction.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }
 }

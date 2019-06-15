@@ -15,27 +15,20 @@ public class Cours {
     private Ville ville;
     private String nomrecette;
     private String date;
-    private String cuisinier;
+    private String nomCuisinier;
+    private String prenomCuisinier;
     private int durée;
 
-    public Cours(String lieu, Ville ville, String nomrecette, String date, String cuisinier, int durée) {
+    public Cours(String lieu, Ville ville, String nomrecette, String date, String nomCuisinier, String prenomCuisinier, int durée) {
         this.lieu = lieu;
         this.ville = ville;
         this.nomrecette = nomrecette;
         this.date = date;
-        this.cuisinier = cuisinier;
+        this.nomCuisinier = nomCuisinier;
+        this.prenomCuisinier = prenomCuisinier;
         this.durée = durée;
     }
 
-    public int getDurée() {
-        return durée;
-    }
-
-    public void setDurée(int durée) {
-        this.durée = durée;
-    }
-
-    
     public String getLieu() {
         return lieu;
     }
@@ -68,13 +61,31 @@ public class Cours {
         this.date = date;
     }
 
-    public String getCuisinier() {
-        return cuisinier;
+    public String getNomCuisinier() {
+        return nomCuisinier;
     }
 
-    public void setCuisinier(String cuisinier) {
-        this.cuisinier = cuisinier;
+    public void setNomCuisinier(String nomCuisinier) {
+        this.nomCuisinier = nomCuisinier;
     }
+
+    public String getPrenomCuisinier() {
+        return prenomCuisinier;
+    }
+
+    public void setPrenomCuisinier(String prenomCuisinier) {
+        this.prenomCuisinier = prenomCuisinier;
+    }
+
+    public int getDurée() {
+        return durée;
+    }
+
+    public void setDurée(int durée) {
+        this.durée = durée;
+    }
+
+    
     
     
 }

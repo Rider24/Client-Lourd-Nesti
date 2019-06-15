@@ -6,14 +6,13 @@
 package Interface;
 
 import Controleurs.Lecture;
-import static Interface.CreationCours.lesCuisiniers;
-import static Interface.CreationCours.lesLieux;
-import static Interface.CreationCours.lesPLagesHoraires;
+import Controleurs.Modification;
 import client.lourd.nesti.Cours;
 import client.lourd.nesti.Cuisiniers;
 import client.lourd.nesti.Lieux;
 import client.lourd.nesti.PlageHoraires;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -58,6 +57,7 @@ public class ModificationCours extends javax.swing.JFrame {
         nomCuisinier = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
+        prenomCuisinier = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
@@ -143,7 +143,7 @@ public class ModificationCours extends javax.swing.JFrame {
                         .addComponent(labelCodePostal))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nomLieu)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
@@ -197,6 +197,8 @@ public class ModificationCours extends javax.swing.JFrame {
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
 
+        prenomCuisinier.setText("prenomCuisinier");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -207,13 +209,14 @@ public class ModificationCours extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
                         .addComponent(nomCuisinier)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(prenomCuisinier, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,7 +224,8 @@ public class ModificationCours extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(nomCuisinier))
+                    .addComponent(nomCuisinier)
+                    .addComponent(prenomCuisinier))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -231,9 +235,19 @@ public class ModificationCours extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jButton1.setText("Annuler et quitter");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jButton2.setText("Valider");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         comboCuisinier.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         comboCuisinier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choisir un nouveau..." }));
@@ -314,14 +328,64 @@ public class ModificationCours extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int OLDidCuis = Lecture.getUnCuisinier(coursPassé.getNomCuisinier(), coursPassé.getPrenomCuisinier()).getID();
+        int OLDidPlage = Lecture.getUnePLage(dateCours.getText()).getID();
+        String OLDDate = dateCours.getText().substring(0, 4)+"-"+dateCours.getText().substring(5, 7)+"-"+dateCours.getText().substring(8,10);
+        int idRec = Lecture.getUneRecette(nomRecette.getText()).getID();
+        String nomDuLieu = nomLieu.getText();
+        if(ComboLieu.getSelectedIndex() != 0){
+            nomDuLieu = ComboLieu.getSelectedItem().toString();
+        }
+        
+        
+        
+        
+        int idPlageHoraire;
+        String date;
+        if(comboPlage.getSelectedIndex() != 0){
+            idPlageHoraire = Lecture.getUnePLage(comboPlage.getSelectedItem().toString()).getID();
+            System.out.println(comboPlage.getSelectedItem());
+            date = comboPlage.getSelectedItem().toString().substring(0, 4)+"-"+comboPlage.getSelectedItem().toString().substring(5, 7)+"-"+comboPlage.getSelectedItem().toString().substring(8,10);
+            System.out.println(date);
+        } else{
+            idPlageHoraire = Lecture.getUnePLage(coursPassé.getDate()).getID();
+            date = OLDDate;
+        }
+        
+        
+        
+        int duration = Integer.parseInt(jComboBox3.getSelectedItem().toString());
+        int idCuisinier;
+        if(comboCuisinier.getSelectedIndex() != 0){
+            String separateur = " ";
+            String nomCuisinierProvisoire = comboCuisinier.getSelectedItem().toString();
+            String provisoire[] = nomCuisinierProvisoire.split(separateur);
+            idCuisinier = Lecture.getUnCuisinier(provisoire[0], provisoire[1]).getID();
+        }else{
+            idCuisinier = Lecture.getUnCuisinier(nomCuisinier.getText(), prenomCuisinier.getText()).getID();
+        }
+        if(Modification.modificationCours(idRec, idCuisinier, nomDuLieu, idPlageHoraire, date, duration, OLDidCuis, OLDidPlage, OLDDate)){
+            JOptionPane.showMessageDialog(jPanel1, "Mise a jour effectuée", "Bravo !", 2);
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(jPanel1, "Impossible de modifier le cours. Ce créneau est déjà occupé.", "Dommage !", 2);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
     private void initCoursAModifier(){
-        nomCuisinier.setText(coursPassé.getCuisinier());
+        nomCuisinier.setText(coursPassé.getNomCuisinier());
+        prenomCuisinier.setText(coursPassé.getPrenomCuisinier());
         nomLieu.setText(coursPassé.getLieu());
         nomRecette.setText(coursPassé.getNomrecette());
         labelVille.setText(coursPassé.getVille().getNom());
         labelCodePostal.setText(Integer.toString(coursPassé.getVille().getCodePostal()));
         dateCours.setText(coursPassé.getDate());
-        
+        jComboBox3.setSelectedIndex(coursPassé.getDurée()-1);
         
         ArrayList<Lieux> lesLieux = Lecture.getLesLieux();
         for (int i = 0; i <= lesLieux.size() - 1; i++) {
@@ -404,5 +468,6 @@ public class ModificationCours extends javax.swing.JFrame {
     private javax.swing.JLabel nomCuisinier;
     private javax.swing.JLabel nomLieu;
     private javax.swing.JTextField nomRecette;
+    private javax.swing.JLabel prenomCuisinier;
     // End of variables declaration//GEN-END:variables
 }
