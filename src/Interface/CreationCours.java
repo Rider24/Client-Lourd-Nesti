@@ -256,7 +256,7 @@ public class CreationCours extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jLabel15.setText("Durée du cours :");
 
-        comboDuréePlage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez une durée", "1", "2", "3", "4" }));
+        comboDuréePlage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selectionnez une durée", "2", "3", "4", "5", "6", "7", "8" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
