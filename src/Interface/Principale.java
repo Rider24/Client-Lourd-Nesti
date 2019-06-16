@@ -802,6 +802,8 @@ public class Principale extends javax.swing.JFrame {
         String nomTheme = ComboTheme1.getSelectedItem().toString();
         if (Lecture.getUneRecette(nomRec) == null){
             Creation.creationRecette(nomRec, desc, nomTheme);
+        }else{
+            GestionIngredientsRecette.modification = true;
         }
         
     }//GEN-LAST:event_gererIngredientsActionPerformed
