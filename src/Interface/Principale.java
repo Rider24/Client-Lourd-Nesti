@@ -11,6 +11,7 @@ import Controleurs.Lecture;
 import Controleurs.Modification;
 import client.lourd.nesti.Clients;
 import client.lourd.nesti.Cours;
+import client.lourd.nesti.Cuisiniers;
 import client.lourd.nesti.Ingredients;
 import client.lourd.nesti.Recettes;
 import client.lourd.nesti.Themes;
@@ -118,14 +119,14 @@ public class Principale extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Numéro", "Nom", "Prenom", "Date de naissance", "Adresse", "Mail", "Ville", "Code Postal", "Droits"
+                "Numéro", "Nom", "Prenom", "Date de naissance", "Adresse", "Mail", "Ville", "Code Postal", "Droits", "Specialite"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -487,14 +488,14 @@ public class Principale extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nom de la recette", "Nom du lieu", "Ville", "Code postal", "Date du cours", "Nom du cuisinier", "Prénom cuisinier", "Durée (en heures)"
+                "Nom de la recette", "Nom du lieu", "Ville", "Code postal", "Date du cours", "Nom du cuisinier", "Prénom cuisinier", "Specialité", "Durée (en heures)"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -596,7 +597,7 @@ public class Principale extends javax.swing.JFrame {
         ArrayList<Clients> lesClients = Lecture.getLesUtilisateur();
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        Object[] row = new Object[9];
+        Object[] row = new Object[10];
 
         if (model.getRowCount() != 0) {
             model.setRowCount(0);
@@ -604,17 +605,33 @@ public class Principale extends javax.swing.JFrame {
 
         for (int i = 0; i <= lesClients.size() - 1; i++) {
             Clients unClient = lesClients.get(i);
-            row[0] = unClient.getID();
-            row[1] = unClient.getNom();
-            row[2] = unClient.getPrenom();
-            row[3] = unClient.getDdn();
-            row[4] = unClient.getAdresse();
-            row[5] = unClient.getMail();
-            row[6] = unClient.getVille();
-            row[7] = unClient.getCodePostal();
-            row[8] = unClient.getDroit().getNom();
-
+            if(unClient.getDroit().getID() == 3){
+                Cuisiniers unCuisinier = Lecture.getUnCuisinier(unClient.getID());
+                row[0] = unCuisinier.getID();
+                row[1] = unCuisinier.getNom();
+                row[2] = unCuisinier.getPrenom();
+                row[3] = unCuisinier.getDdn();
+                row[4] = unCuisinier.getAdresse();
+                row[5] = unCuisinier.getMail();
+                row[6] = unCuisinier.getVille();
+                row[7] = unCuisinier.getCodePostal();
+                row[8] = unCuisinier.getDroit().getNom();
+                row[9] = unCuisinier.getSpe().getNom();
+                model.addRow(row);
+                row[9] = "";
+            }else{
+                row[0] = unClient.getID();
+                row[1] = unClient.getNom();
+                row[2] = unClient.getPrenom();
+                row[3] = unClient.getDdn();
+                row[4] = unClient.getAdresse();
+                row[5] = unClient.getMail();
+                row[6] = unClient.getVille();
+                row[7] = unClient.getCodePostal();
+                row[8] = unClient.getDroit().getNom();
             model.addRow(row);
+            }
+            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -838,7 +855,7 @@ public class Principale extends javax.swing.JFrame {
         ArrayList<Cours> lesCours = Lecture.getLesCours();
         
         DefaultTableModel model = (DefaultTableModel) TableCours.getModel();
-        Object[] row = new Object[8];
+        Object[] row = new Object[9];
 
         if (model.getRowCount() != 0) {
             model.setRowCount(0);
@@ -854,7 +871,8 @@ public class Principale extends javax.swing.JFrame {
             row[4] = unCours.getDate();
             row[5] = unCours.getNomCuisinier();
             row[6] = unCours.getPrenomCuisinier();
-            row[7] = unCours.getDurée();
+            row[7] = unCours.getSpecialite();
+            row[8] = unCours.getDurée();
             model.addRow(row);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -874,8 +892,9 @@ public class Principale extends javax.swing.JFrame {
         String date = TableCours.getValueAt(TableCours.getSelectedRow(), 4).toString();
         String nomCuisinier = TableCours.getValueAt(TableCours.getSelectedRow(), 5).toString();
         String prenomCuisinier = TableCours.getValueAt(TableCours.getSelectedRow(), 6).toString();
-        int durée = Integer.parseInt(TableCours.getValueAt(TableCours.getSelectedRow(), 7).toString());
-        ModificationCours.coursPassé = new Cours(nomLieu, uneVille, nomRec, date, nomCuisinier, prenomCuisinier, durée);
+        int durée = Integer.parseInt(TableCours.getValueAt(TableCours.getSelectedRow(), 8).toString());
+        String specialite = TableCours.getValueAt(TableCours.getSelectedRow(), 7).toString();
+        ModificationCours.coursPassé = new Cours(nomLieu, uneVille, nomRec, date, nomCuisinier, prenomCuisinier, durée, specialite);
         
         
         final ModificationCours frame = new ModificationCours();

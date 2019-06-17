@@ -354,6 +354,7 @@ public class CreationCours extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableRecettes.setEnabled(false);
         jScrollPane1.setViewportView(tableRecettes);
 
         TableCuisiniers.setModel(new javax.swing.table.DefaultTableModel(
@@ -361,14 +362,14 @@ public class CreationCours extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Numéro", "Nom", "Prenom"
+                "Numéro", "Nom", "Prenom", "Specialite"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -379,6 +380,7 @@ public class CreationCours extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        TableCuisiniers.setEnabled(false);
         jScrollPane2.setViewportView(TableCuisiniers);
 
         creeRecette.setText("Créer le cours");
@@ -523,8 +525,35 @@ public class CreationCours extends javax.swing.JFrame {
                     model.setRowCount(0);
                 }
             }
+            ArrayList<Cuisiniers> lesCuisiniersSelonSpecialite = Lecture.getLesCuisiniersSelonTheme(ComboTheme.getSelectedItem().toString());
+            DefaultTableModel model2 = (DefaultTableModel) TableCuisiniers.getModel();
+            if (lesCuisiniersSelonSpecialite != null) {
+                Object[] row = new Object[4];
+
+                if (model2.getRowCount() != 0) {
+                    model2.setRowCount(0);
+                }
+                for (int i = 0; i <= lesCuisiniersSelonSpecialite.size() - 1; i++) {
+                    Cuisiniers unCuisinier = lesCuisiniersSelonSpecialite.get(i);
+                    row[0] = unCuisinier.getID();
+                    row[1] = unCuisinier.getNom();
+                    row[2] = unCuisinier.getPrenom();
+                    row[3] = unCuisinier.getSpe().getNom();
+
+                    model2.addRow(row);
+                }
+            }else{
+                if (model2.getRowCount() != 0) {
+                    model2.setRowCount(0);
+                }
+            }
+            tableRecettes.setEnabled(true);
+            TableCuisiniers.setEnabled(true);
         }else{
             initTableRecettes();
+            initTableCuisiniers();
+            tableRecettes.setEnabled(false);
+            TableCuisiniers.setEnabled(false);
         }
     }//GEN-LAST:event_ComboThemeActionPerformed
 
@@ -637,7 +666,7 @@ public class CreationCours extends javax.swing.JFrame {
     private void initTableCuisiniers(){
         lesCuisiniers = Lecture.getLesCuisiniers();
         DefaultTableModel model = (DefaultTableModel) TableCuisiniers.getModel();
-        Object[] row = new Object[3];
+        Object[] row = new Object[4];
 
         if (model.getRowCount() != 0) {
             model.setRowCount(0);
@@ -648,6 +677,7 @@ public class CreationCours extends javax.swing.JFrame {
             row[0] = unCuisinier.getID();
             row[1] = unCuisinier.getNom();
             row[2] = unCuisinier.getPrenom();
+            row[3] = unCuisinier.getSpe().getNom();
 
             model.addRow(row);
         }

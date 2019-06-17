@@ -595,14 +595,15 @@ public class Lecture {
 
             Statement stmt = co.createStatement();
             
-            String query = "SELECT DISTINCT Durée, lieux.nom, lieux.CodePostal_CodePostal_cp, recette.nom, plagehoraire.debut, ville.ville, ville.idVille, utilisateur.nomUser, utilisateur.prenom FROM cours\n" +
+            String query = "SELECT DISTINCT Durée, lieux.nom, lieux.CodePostal_CodePostal_cp, recette.nom, plagehoraire.debut, ville.ville, ville.idVille, utilisateur.nomUser, utilisateur.prenom, specialite.specialite FROM cours\n" +
 "JOIN lieux ON cours.Lieux_idLieux = lieux.idLieux\n" +
 "JOIN recette ON cours.Recette_idRec = recette.idRec\n" +
 "JOIN plagehoraire ON cours.PlageHoraire_idPlageHoraire = plagehoraire.idPlageHoraire\n" +
 "JOIN ville ON lieux.CodePostal_Ville_idVille = ville.idVille\n" +
 "JOIN cuisinier ON cours.Cuisinier_idCuisinier = cuisinier.idCuisinier\n" +
-"JOIN utilisateur ON cuisinier.idCuisinier = utilisateur.idUser";
+"JOIN utilisateur ON cuisinier.idCuisinier = utilisateur.idUser JOIN specialite ON cuisinier.Specialite_idSpecialite = specialite.idSpecialite";
            
+            System.out.println(query);
             ResultSet resultat = stmt.executeQuery(query);
             if(resultat.next()){
                 do {       
@@ -613,7 +614,8 @@ public class Lecture {
                     int durée = resultat.getInt("Durée");
                     String nomCuisinier = resultat.getString("utilisateur.nomUser");
                     String prenomCuisinier = resultat.getString("utilisateur.prenom");
-                    Cours cours = new Cours(nomDuLieu, ville, nomRecette,date, nomCuisinier, prenomCuisinier, durée);
+                    String specialite = resultat.getString("specialite.specialite");
+                    Cours cours = new Cours(nomDuLieu, ville, nomRecette,date, nomCuisinier, prenomCuisinier, durée, specialite);
                     lesCours.add(cours);
                 }
                 while(resultat.next());
@@ -746,5 +748,49 @@ public class Lecture {
             Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
         }
         return unePlage;
+    }
+    public static ArrayList getLesCuisiniersSelonTheme(String theme){
+        ArrayList<Cuisiniers> lesCuisiniers = new ArrayList<>();
+        try {
+            Connection co = modele.startConnection();
+
+            Statement stmt = co.createStatement();
+
+            String query =  "SELECT DISTINCT idUser, nomUser, prenom, ddnUser, adresse, mail, login, CodePostal_CodePostal_cp, ville.ville, specialite.idSpecialite, specialite.specialite FROM utilisateur\n" +
+"join ville on utilisateur.CodePostal_Ville_idVille = ville.idVille\n" +
+"JOIN cuisinier ON utilisateur.idUser = cuisinier.idCuisinier\n" +
+"JOIN specialite ON cuisinier.Specialite_idSpecialite = specialite.idSpecialite\n" +
+"JOIN specialiteselontheme ON cuisinier.Specialite_idSpecialite = specialiteselontheme.idSpe\n" +
+"JOIN theme ON specialiteselontheme.idTheme = theme.idTheme\n" +
+"WHERE utilisateur.Droits_idDroits = 3 AND theme.descript = \"" + theme +"\"";
+            System.out.println(query);
+            ResultSet resultat = stmt.executeQuery(query);
+            if (resultat.next()) {
+                do {        
+                    String nom = resultat.getString("nomUser");
+                    String prenom = resultat.getString("prenom");
+                    int idUser = resultat.getInt("idUser");
+                    String ddn = resultat.getString("ddnUser");
+                    String adresse = resultat.getString("adresse");
+                    String mail = resultat.getString("mail");
+                    String login = resultat.getString("login");
+                    String ville = resultat.getString("ville.ville");
+                    int codePostal = resultat.getInt("CodePostal_CodePostal_cp");
+                    Droits droit = new Droits(3, "Cuisinier");
+                    Specialites spe = new Specialites(resultat.getInt("specialite.idSpecialite"), resultat.getString("specialite.specialite"));
+                    Cuisiniers cuisinier = new Cuisiniers(spe, idUser, nom, droit, prenom, adresse, mail, ddn, login, ville, codePostal);
+                    lesCuisiniers.add(cuisinier);
+                }
+                while(resultat.next());
+                modele.closeConnection(co);                
+            }
+            else{
+                lesCuisiniers = null;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ModeleRecette.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lesCuisiniers;
     }
 }

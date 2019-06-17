@@ -17,9 +17,10 @@ public class Cours {
     private String date;
     private String nomCuisinier;
     private String prenomCuisinier;
+    private String specialite;
     private int durée;
 
-    public Cours(String lieu, Ville ville, String nomrecette, String date, String nomCuisinier, String prenomCuisinier, int durée) {
+    public Cours(String lieu, Ville ville, String nomrecette, String date, String nomCuisinier, String prenomCuisinier, int durée, String specialite) {
         this.lieu = lieu;
         this.ville = ville;
         this.nomrecette = nomrecette;
@@ -27,8 +28,16 @@ public class Cours {
         this.nomCuisinier = nomCuisinier;
         this.prenomCuisinier = prenomCuisinier;
         this.durée = durée;
+        this.specialite = specialite;
     }
 
+    public String getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(String specialite) {
+        this.specialite = specialite;
+    }
     public String getLieu() {
         return lieu;
     }

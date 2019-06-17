@@ -675,8 +675,9 @@ public class CreationUtilisateur extends javax.swing.JFrame {
         COMBOville.setSelectedItem(cuisinierPassé.getVille());
         ActionEvent evt = null;
         COMBOvilleActionPerformed(evt);
-        COMBOcp.setSelectedItem(cuisinierPassé.getCodePostal());
+        COMBOcp.setSelectedItem(Integer.toString(cuisinierPassé.getCodePostal()));
         jComboBox1.setSelectedItem(cuisinierPassé.getDroit().getNom());
+        ComboSpecialite.setSelectedItem(cuisinierPassé.getSpe().getNom());
     }
 //    private void resetLesChamps(){
 //        jLabel1.setText("Creation utilisateur");
